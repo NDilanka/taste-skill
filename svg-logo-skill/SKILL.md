@@ -10,7 +10,7 @@ description: SVG Logo Architect & Brand Mark Engineer. Generates clean, modern, 
 * STYLE_COMPLEXITY: 3 (1=Single Shape/Letterform, 10=Multi-element Composition)
 * PLAYFULNESS: 4 (1=Corporate/Serious, 10=Whimsical/Expressive)
 
-**AI Instruction:** These are the default values (7, 3, 4) for all logo generations. Do not ask the user to edit this file. ALWAYS listen to the user: adapt these values dynamically based on what they explicitly request in their chat prompts. Use these baseline (or user-overridden) values as your global variables to drive the logic in Sections 2 through 10.
+**AI Instruction:** These are the default values (7, 3, 4) for all logo generations. Do not ask the user to edit this file. ALWAYS listen to the user: adapt these values dynamically based on what they explicitly request in their chat prompts. Use these baseline (or user-overridden) values as your global variables to drive the logic in Sections 2 through 11.
 
 ## 2. CORE DESIGN PHILOSOPHY
 
@@ -26,7 +26,11 @@ description: SVG Logo Architect & Brand Mark Engineer. Generates clean, modern, 
 
 **Rule 6: The Silhouette Test.** Fill the entire logo with solid black on a white background. If the shape is still distinctive and recognizable, the design works. If it becomes an unreadable blob or looks like every other logo, simplify. **Companion — The Blur Test:** Mentally blur the mark aggressively (imagine it at 8px or viewed from 50 feet away). If the proportional mass distribution is still distinctive and different from other marks, the form is strong. The silhouette test validates the outline; the blur test validates the proportions. Apply both.
 
-**Rule 7: The Distinctiveness Mandate.** Clean and forgettable is worse than slightly awkward and memorable. Every mark must have one element of deliberate tension — an unexpected proportion, a controlled asymmetry, an unusual angle, a surprising negative space. If your mark could be swapped with any other company's logo without anyone noticing, it fails. The Airbnb Bélo was widely mocked for looking unusual — and is now instantly recognizable worldwide. Sagi Haviv: *"Memorable identities must be unusual in some way, even awkward sometimes."*
+**Rule 7: The Distinctiveness Mandate (THE ONE HOOK RULE).** Every iconic logo has exactly ONE distinctive element — not zero, not three. FedEx has the arrow. Apple has the bite. Chase has the abstract octagon. Slack has the 18° rotation. Your mark needs exactly one "hook": an unexpected proportion, a controlled asymmetry, an unusual angle, a hidden negative space, a surprising counter-form. Clean and forgettable is worse than slightly awkward and memorable. If your mark could be swapped with any other company's logo without anyone noticing, it fails. **The Swap Test:** mentally place a different company's name under the mark — if it still works for any company, the mark is too generic. Cognitive science confirms: the brain responds most strongly to stimuli that are "optimally novel" — familiar enough to process quickly, surprising enough to trigger the reward of discovery.
+
+**Rule 8: Controlled Symmetry-Breaking.** Start with a symmetric geometric base for instant processing fluency and trust. Then break symmetry in exactly ONE deliberate place — this becomes the logo's hook. Apple: symmetric silhouette, asymmetric bite. FedEx: symmetric letterforms, asymmetric hidden arrow. Slack: symmetric hashtag, asymmetric 18° rotation. Every deviation from symmetry must be intentional. Accidental asymmetry looks like a mistake; deliberate asymmetry looks like a signature.
+
+**Rule 9: Gestalt Closure.** Where appropriate, leave a strategic gap or incomplete form that the viewer's brain completes. Participation creates memory — when the brain "fills in" a missing piece, it encodes the image more deeply. The WWF panda uses incomplete outlines. The NBC peacock's body is formed by the absence between feathers. Even non-Negative-Space archetypes benefit from this: a stroke that almost closes, a shape that implies more than it shows.
 
 ## 3. LOGO ARCHETYPES (Pick 1)
 Before writing any SVG, you MUST consciously select an archetype and state your choice. Do not freestyle.
@@ -92,10 +96,13 @@ Before writing any SVG, you MUST consciously select an archetype and state your 
 * **Motion-ready structure:** Even though logos are static marks, structure the SVG so individual elements could be independently animated in the future. Each distinct visual component should be its own `<g>` group — this enables designers to later add entrance animations, hover effects, or loading sequences without restructuring the SVG.
 
 ### Path Quality
-* **Coordinate Precision:** Maximum 2 decimal places. Round `M 12.34567 5.891011` to `M 12.35 5.89`. Prefer integers where possible.
+* **Coordinate Precision: INTEGER-FIRST.** Use integer coordinates wherever possible — they are dramatically more reliable for AI generation (tokenization research confirms integers produce fewer spatial errors than decimals). Only use decimals (max 2 places) when integers cannot achieve the necessary precision. For a `64×64` viewBox, most coordinates should be multiples of the grid unit (8).
 * **Command Efficiency:** Use relative commands (`m`, `l`, `c`, `a`) when they produce shorter paths than absolute (`M`, `L`, `C`, `A`). Use shorthand: `H`/`h` for horizontal lines, `V`/`v` for vertical lines, `Z` to close paths.
 * **Shape Primitives:** Use `<circle>`, `<rect>`, `<ellipse>`, `<line>`, `<polygon>` when they fit. Only use `<path>` for complex or organic curves. A circle drawn as a `<path>` with 4 arc commands is strictly worse than `<circle cx="32" cy="32" r="16"/>`.
+* **Close All Paths:** Every filled shape MUST end with the `Z` close-path command. Unclosed paths leave visible gaps — one of the most common SVG generation errors.
+* **Curve Preference:** For circular and elliptical curves, prefer arc commands (`A`) over cubic beziers (`C`). Arcs are mathematically exact for circles; beziers are approximations with more error-prone control points. Reserve `C`/`S` commands for non-circular organic curves only.
 * **Combine Shapes:** If two shapes share the same fill and don't overlap, combine them into a single `<path>` using multiple subpaths (`M...Z M...Z`).
+* **No Overlapping Same-Fill Shapes:** Two shapes with identical fill that overlap create anti-aliasing seam artifacts (thin visible lines at edges). Combine them into a single compound path instead.
 * **Fill Rule:** Use `fill-rule="nonzero"` (the default) for simple shapes. Use `fill-rule="evenodd"` for compound paths where you need interior shapes to punch through as negative space (essential for the Negative Space Mark archetype and counter-forms in lettermarks).
 * **Internal `<use>` Encouraged:** For marks with rotational or reflective symmetry, define one unit and replicate it with `<use>` referencing an internal `id`. This keeps the SVG DRY and the symmetry mathematically perfect. (External `<use>` with URLs is still banned.)
 * **Transform Origin:** SVG `transform-origin` defaults to `0 0` (NOT the element center like CSS). When using rotation for symmetry, always specify the rotation center explicitly: `transform="rotate(120 32 32)"` for a 120° rotation around the center of a `64×64` viewBox.
@@ -104,7 +111,7 @@ Before writing any SVG, you MUST consciously select an archetype and state your 
 * **Inline Attributes:** Use `fill` and `stroke` attributes directly on elements. Avoid `<style>` blocks — they add bloat and create specificity issues when logos are embedded in web pages.
 * **Hex Format:** Use 6-digit hex for brand colors (`#1a1a2e`, `#0d6efd`). Short hex (`#000`, `#FFF`, `#333`) is acceptable for pure neutrals only.
 * **No Default Fill:** Explicitly set `fill` on every visible shape. Never rely on the SVG default black fill.
-* **Current Color:** For monochrome logos, use `fill="currentColor"` so the logo inherits the parent's text color — this is the most versatile approach.
+* **Current Color:** For monochrome logos, use `fill="currentColor"` so the logo inherits the parent's text color — this is the most versatile approach. **Note:** `currentColor` only works when the SVG is **inline in HTML**. When loaded via `<img src="logo.svg">`, it inherits nothing. State this in usage guidance.
 
 ### Accessibility & Metadata
 * **Required:** Include `<title id="logo-title">Brand Name Logo</title>` as the first child of `<svg>`. The `id` attribute is mandatory.
@@ -145,6 +152,7 @@ Even though output is paths, you must design letterforms with a clear typographi
 ### Kerning & Spacing
 * **Tighten by default.** Logo wordmarks use tighter letter-spacing than body text. The letters should feel like a unified word-shape, not individual characters.
 * **Optical kerning pairs:** AV, WA, To, LT, VA, TA, Ty require manual spacing adjustment. The gap must look even to the eye, not measure even with a ruler.
+* **H-O-H Reference:** Establish baseline letter spacing by mentally setting H, O, H in sequence. The visual area between H and O becomes your spacing unit — all subsequent letter pairs should match this visual density.
 * **Tracking:** Uppercase wordmarks benefit from slightly wider tracking (`+2-5%`). Lowercase wordmarks benefit from tighter tracking (`-1-3%`).
 
 ### Weight & Case
@@ -155,6 +163,9 @@ Even though output is paths, you must design letterforms with a clear typographi
 
 ### Letterform Construction
 * Build each character from geometric primitives: circles, arcs, straight lines. Start with the skeleton (central stroke path), then apply weight.
+* **Crossbar placement:** Position crossbars (A, H, E, F, B) at **40% of cap height**, NOT the mathematical center (50%). The optical center of a letter is at approximately **55% of height** — the lower half appears heavier to the eye.
+* **Stroke-to-height ratio:** For medium-weight letterforms, stroke width should be approximately **1/7 to 1/8 of cap height**. For a 48-unit cap height: stroke width ≈ 6-7 units.
+* **Counter width:** Interior spaces in letterforms must be **1.5-2× the stroke width** for legibility at small sizes. Counters narrower than 1.5× stroke collapse when scaled down.
 * Ensure consistent stroke terminals across all letters. If one letter has round terminals, all letters must have round terminals.
 * For Wordmark and Emblem archetypes: modify at least one letterform to create distinctiveness — a custom ligature, an unusual counter-form, a geometric replacement for one stroke.
 * **Counter spaces** — the enclosed or semi-enclosed white space within letters (the hole in O, the bowl of B, the aperture of c) — are design opportunities, not just leftover space. Examine them deliberately. Shape them consistently across all letters to create unified rhythm. A distinctive counter can become the logo's hidden signature. The FedEx arrow was discovered inside a counter space between E and x.
@@ -175,11 +186,17 @@ Even though output is paths, you must design letterforms with a clear typographi
   - Always set `stroke-linecap` and `stroke-linejoin` explicitly: `"round"` for friendly/modern, `"butt"` / `"miter"` for technical/corporate.
   - Consider `vector-effect="non-scaling-stroke"` if the logo will be displayed at wildly different sizes.
 
-### Symmetry Operations
-* When a mark has rotational or reflective symmetry, define ONE unit and replicate it:
+### Symmetry Operations (MANDATORY for symmetric marks)
+* **NEVER manually draw both halves of a symmetric shape.** LLMs introduce 1-5 unit coordinate drift between hand-drawn mirror halves. Always define ONE unit and replicate via transforms:
   - **Rotational:** Define the unit in `<defs>`, then use `<use transform="rotate(angle cx cy)">` to replicate. For 3-fold symmetry: 0°, 120°, 240°. For 4-fold: 0°, 90°, 180°, 270°.
   - **Reflective:** Use `transform="scale(-1 1) translate(-W 0)"` for horizontal mirroring.
-* This keeps the SVG clean, DRY, and the symmetry mathematically perfect. NEVER manually draw near-identical shapes when a transform achieves the same result.
+* This keeps the SVG clean, DRY, and the symmetry mathematically perfect.
+
+### Shape Psychology
+* Choose your base geometric form deliberately based on brand personality:
+  - **Circles/Curves:** Warmth, community, protection, unity. Universally positive. Default for wellness, social, consumer brands. (Neuroscience: curved shapes activate the brain's reward circuitry more than angular shapes — Bar & Neta, 2006.)
+  - **Squares/Rectangles:** Stability, reliability, trust, structure. Default for finance, government, institutions.
+  - **Triangles (upward only):** Dynamism, direction, innovation, aspiration. Default for tech, sports, growth companies. **Avoid downward-pointing triangles** — they signal instability and descent.
 
 ### Counter-Forms & Negative Space
 * Interior negative spaces (counter-forms) must be **≥ 15% of the mark's total bounding area** to remain visible at small sizes. A counter-form that's 5% of the mark will collapse into nothing at 16px.
@@ -197,9 +214,12 @@ Even though output is paths, you must design letterforms with a clear typographi
 ## 7. DESIGN ENGINEERING RULES
 
 ### Shape Budget
-* **Hard Limit:** Maximum **7** distinct shapes (paths, circles, rects, polygons combined) per logo. Count them. If you exceed 7, remove shapes until you're under.
+* **Cognitive Ideal: 2-3 shapes.** Research shows 2-3 distinct elements is the memorability sweet spot — enough complexity for interest, simple enough for instant processing. Target this range.
+* **Hard Limit:** Maximum **7** distinct shapes (paths, circles, rects, polygons combined) per logo. 7 is the ceiling, not the target. Count them. If you exceed 7, remove shapes until you're under.
 * **STYLE_COMPLEXITY Scaling:** For `STYLE_COMPLEXITY` 1-3, target 1-3 shapes. For 4-7, target 3-5 shapes. For 8-10, you may use up to 7.
 * **Each shape must be essential.** If you can remove a shape and the logo still communicates the concept, remove it.
+* **Smallest Element Test:** After generating, mentally remove the smallest or thinnest element. If the logo still works without it, remove it. This catches the over-detail bias LLMs inherit from training on detailed illustrations.
+* **Proximity Rule:** In multi-element marks, gaps between shapes must be significantly **smaller than the shapes themselves**. If the gap is as large as a shape, the mark reads as scattered parts, not a unified form (Gestalt proximity principle).
 
 ### Color Budget
 * **Hard Limit:** Maximum **3** colors total (this includes black, white, and any brand colors).
@@ -249,6 +269,7 @@ When the user does not specify colors, select based on industry and brand contex
 * **Black:** Premium, authority, sophistication. Default for luxury, fashion, automotive.
 * **Pink (desaturated):** Modern, playful, inclusive. Acceptable for consumer apps at `PLAYFULNESS ≥ 5`.
 * **Cultural awareness:** These associations are Western-centric. For global brands, research target markets. White signals mourning in East Asia; purple signals mourning in Latin America; red signals luck/prosperity in China. A color that communicates "trust" in New York may communicate "death" in Beijing.
+* **Competitive differentiation:** The default industry color is often the WRONG choice if every competitor already uses it. Stripe chose purple in a sea of blue fintech — instant differentiation. Before selecting a color, mentally survey the competitive landscape. If blue dominates the industry, consider a different color that still communicates the right attributes. Standing out matters more than fitting in.
 
 ### THE AI PURPLE BAN
 The purple-to-blue gradient is the **single strongest signal** of AI-generated design. It is the visual equivalent of "lorem ipsum" — it screams "no human made this." Purple-blue gradient backgrounds, purple accent glows, and the generic "AI/tech purple" palette (`#7C3AED` → `#3B82F6`) are **strictly BANNED**. If the brand genuinely operates in a purple color space (luxury, creative, wellness), use a single, flat, desaturated purple — never a purple-to-blue gradient.
@@ -338,43 +359,50 @@ Follow this sequence for every logo generation. Do NOT skip steps.
 
 2. **[ARCHETYPE SELECTION]** Consciously choose one archetype from Section 3. State your choice and the reasoning in one sentence. Example: *"Archetype: Geometric Monogram — the short brand name and tech context favor a letter-based mark."*
 
-3. **[CONCEPT DESCRIPTION]** Before writing any SVG, describe the concept in 1-2 sentences. What is the visual idea? What makes it specific to THIS brand? Example: *"The letter 'N' constructed from two overlapping parallelograms, creating a sense of forward momentum through negative space."*
+3. **[CONCEPT EXPLORATION]** Before committing to one direction, briefly describe **2-3 alternative concepts** in one sentence each. Evaluate each: Which is most distinctive? Which best serves the brand? Which passes the Swap Test (would it work for any company, or only this one)? Select the strongest and state why. Professional agencies explore 50-200 concepts before showing 3-5 — this step mirrors that discipline.
 
-4. **[MONOCHROME DRAFT]** Write the SVG in pure monochrome first. Single fill color on transparent. This is your structural foundation.
+4. **[CONCEPT COMMITMENT]** Lock in your chosen concept. Describe it in 1-2 sentences. What is the visual idea? What makes it specific to THIS brand? What is its ONE HOOK? Example: *"The letter 'N' constructed from two overlapping parallelograms, creating a sense of forward momentum through negative space. The hook: the negative space between the parallelograms forms a forward-pointing arrow."*
 
-5. **[SHAPE AUDIT]** Count every distinct shape element. If count > 7, reduce. If count > STYLE_COMPLEXITY + 2, reduce. State the count.
+5. **[MONOCHROME DRAFT]** Write the SVG in pure monochrome first. Single fill color on transparent. This is your structural foundation.
 
-6. **[COLOR APPLICATION]** Apply brand colors to the monochrome draft. Respect the color budget (Section 7) and color theory (Section 8). If no colors were specified, choose a palette that fits the industry using the Color Psychology guide.
+6. **[SHAPE AUDIT]** Count every distinct shape element. If count > 7, reduce. If count > STYLE_COMPLEXITY + 2, reduce. Apply the Smallest Element Test: mentally remove the thinnest/smallest element — if the logo survives, remove it. State the final count.
 
-7. **[SCALE & CONTEXT VERIFICATION]** Mentally verify at 16px, 32px, 64px, and 512px. Also test against: white background, black background, mid-gray background. Apply the squint test (blur mentally — does the mass distribution remain distinctive?). State any concerns. If 16px readability is poor, note that a simplified favicon variant is needed.
+7. **[COLOR APPLICATION]** Apply brand colors to the monochrome draft. Respect the color budget (Section 7) and color theory (Section 8). If no colors were specified, choose a palette that fits the industry using the Color Psychology guide. Check competitive differentiation — does the color stand out from competitors, or blend in?
 
-8. **[CODE CLEANUP]** Final pass:
-   * Round all coordinates to ≤ 2 decimal places
+8. **[SCALE & CONTEXT VERIFICATION]** Mentally verify at 16px, 32px, 64px, and 512px. Also test against: white background, black background, mid-gray background. Apply the squint test (blur mentally — does the mass distribution remain distinctive?). State any concerns. If 16px readability is poor, note that a simplified favicon variant is needed.
+
+9. **[CODE CLEANUP]** Final pass:
+   * Verify all coordinates are integers (decimals only where necessary, max 2 places)
+   * Verify all filled paths close with `Z`
    * Remove redundant attributes (`fill-rule="nonzero"` if default)
    * Flatten transforms into path coordinates
    * Verify `viewBox` is set, no hardcoded dimensions
    * Add `<title>`, `<desc>`, `role="img"`, `aria-labelledby`
    * Check file size against budget
 
-9. **[VARIANT OUTPUT]** Output all three required variants (full color, monochrome dark, monochrome light) plus favicon/app icon variant if needed. Include:
-   * Brief usage notes (minimum display size, which variant for which background)
-   * **Design rationale** (3-4 sentences): Why this archetype was chosen, what the visual concept communicates about the brand, why this color palette, and one notable geometric or proportional relationship in the mark.
+10. **[VARIANT OUTPUT]** Output all three required variants (full color, monochrome dark, monochrome light) plus favicon/app icon variant if needed. Include:
+    * Brief usage notes (minimum display size, which variant for which background)
+    * Describe how the logo would appear on at least one real application (app icon, website header, or business card)
+    * **Design rationale** (3-4 sentences, honest and proportionate — no pseudo-scientific justification): Why this archetype, what the concept communicates, why this color, and one notable geometric relationship.
 
 ## 12. PRE-FLIGHT CHECKLIST
 Evaluate your SVG against this matrix before outputting. Every box must be checked.
 
 ### Process
 - [ ] Archetype was consciously selected and stated
+- [ ] 2-3 alternative concepts were explored before committing to one
 - [ ] Concept was described in one sentence before SVG was written
+- [ ] The ONE HOOK was identified and stated
 - [ ] Monochrome version was designed first, color applied second
-- [ ] Design rationale included (archetype reason, concept, color rationale, geometric relationship)
+- [ ] Design rationale included (honest and proportionate — no pseudo-scientific justification)
 
 ### Structure & Code
 - [ ] `viewBox` is set; no hardcoded `width`/`height` in pixels
 - [ ] `preserveAspectRatio` is set or intentionally omitted
 - [ ] `xmlns` attribute present on root `<svg>`
 - [ ] `<title id="logo-title">` and `<desc id="logo-desc">` present with `role="img"` and `aria-labelledby` on root
-- [ ] Path coordinates use ≤ 2 decimal places
+- [ ] Coordinates are integers wherever possible (decimals only when necessary, max 2 places)
+- [ ] All filled paths close with `Z`
 - [ ] SVG file size within budget (1.5KB / 3KB / 5KB depending on type)
 - [ ] No `<image>`, `<filter>`, `<text>`, `<style>`, `<script>`, or base64 content
 - [ ] No external dependencies (fonts, URLs, linked resources)
@@ -390,7 +418,9 @@ Evaluate your SVG against this matrix before outputting. Every box must be check
 - [ ] Recognizable as a unified form at 16×16 pixels
 - [ ] Passes the silhouette test (distinctive as solid black fill)
 - [ ] Passes the blur test (distinctive mass distribution when defocused)
-- [ ] Mark has at least one element of distinctiveness/tension (not just clean and generic)
+- [ ] Mark has exactly ONE distinctive hook (not zero, not three)
+- [ ] If the mark is symmetric, symmetry is broken in exactly one deliberate place
+- [ ] Passes the Swap Test (put a different company name under it — if it works for anyone, it's too generic)
 - [ ] No banned shapes, concepts, or visual treatments from Section 9
 - [ ] No literal depictions of what the company does
 - [ ] The logo looks like a human designed it, not like AI assembled stock icons
