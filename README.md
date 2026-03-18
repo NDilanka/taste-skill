@@ -12,7 +12,7 @@ I'd love to hear your thoughts! If you have suggestions or find any bugs:
 
 ## Skills
 
-There are five skills in this project. Each one lives in its own folder and contains a `SKILL.md` file.
+There are six skills in this project. Each one lives in its own folder and contains a `SKILL.md` file.
 
 ### 1. taste-skill
 The main design skill. Teaches the AI how to write good-looking frontend code from scratch. Covers layout, typography, colors, spacing, motion, and overall visual quality.
@@ -28,6 +28,9 @@ Stops the AI from being lazy. Prevents placeholder comments, skipped code blocks
 
 ### 5. minimalist-skill
 For clean, editorial-style interfaces inspired by tools like Notion and Linear. Enforces warm monochrome palettes, serif/sans-serif typographic contrast, massive whitespace, flat bento grids with crisp hairline borders, and muted pastel accents. Blocks gradients, heavy shadows, and generic SaaS patterns.
+
+### 6. svg-logo-skill
+Generates clean, modern, minimal SVG logos. Enforces shape budgets, path optimization, geometric precision, and scalability from favicon to billboard. Bans generic AI logo clichés (globes, shields, swooshes, lightbulbs) and produces versatile marks with monochrome and full-color variants.
 
 ## How to Use
 
