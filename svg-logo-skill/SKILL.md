@@ -138,6 +138,19 @@ Before writing any SVG, you MUST consciously select an archetype and state your 
 * **Required:** Include `<desc id="logo-desc">` with a brief visual description of the mark (e.g., "Abstract geometric mark formed by two interlocking triangles").
 * **ARIA:** Add `role="img"` and `aria-labelledby="logo-title logo-desc"` on the root `<svg>`, referencing both IDs.
 
+### AI Generation Reliability (Research-Backed)
+LLM SVG research (LLM4SVG CVPR 2025, Chat2SVG CVPR 2025, Reason-SVG 2025) reveals a clear element reliability hierarchy:
+
+* **Most reliable:** `<rect>`, `<circle>`, `<ellipse>`, `<line>` — fewest parameters, hardest to get wrong.
+* **Moderate:** `<polygon>`, `<path>` with straight-line commands (L, H, V) — reliable for simple shapes.
+* **Least reliable:** `<path>` with cubic Bezier (C) and arc commands (A) — control points frequently misplaced, arc flags frequently wrong.
+
+**Compose logos from primitives whenever possible.** Reserve `<path>` for connections between primitives and organic curves that can't be expressed as basic shapes.
+
+**Coordinate drift:** Over long path sequences, LLMs accumulate small coordinate errors. Mitigations: keep individual paths short, use `<defs>` + `<use>` for repeated elements (guarantees identical copies), and prefer a larger viewBox with integer coordinates (e.g., `100×100` gives 10,000 grid positions without decimals).
+
+**Drawing-with-Thought:** The execution protocol (Section 11) follows this research-validated pattern: plan the concept → decompose into primitives → compute coordinates → style → assemble. Planning before generating SVG reduces coordinate misalignment significantly.
+
 ### Banned SVG Features
 * **NO** `<image>` or embedded raster data (base64, external URLs)
 * **NO** `<filter>`, `<feGaussianBlur>`, `<feDropShadow>`, or any filter primitives
@@ -149,6 +162,16 @@ Before writing any SVG, you MUST consciously select an archetype and state your 
 * **NO** `stroke-dasharray`, `stroke-dashoffset`, or `<animate>` elements — logos are static marks
 * **NO** `opacity` below `0.3` on visible design elements — if something is that faint, remove it. (Construction guides during development are fine.)
 * **Stroke-based logos:** If strokes are the primary visual style, consider adding `vector-effect="non-scaling-stroke"` so strokes maintain consistent width regardless of the SVG's display size.
+
+### Cross-Renderer Compatibility
+Target **Tier 1 features only** for maximum compatibility. Allow Tier 2 only when the design requires it.
+
+* **Tier 1 (Universal):** Basic shapes (`<rect>`, `<circle>`, `<ellipse>`, `<polygon>`), `<path>` with M/L/C/Q/A/Z, `viewBox`, solid `fill`/`stroke` with hex colors, `fill-rule="nonzero"`, `opacity`, `<g>` grouping, text converted to paths. Works everywhere: all browsers, Figma, Illustrator, iOS, Android VectorDrawable.
+* **Tier 2 (Mostly safe):** `fill-rule="evenodd"` (broken on Android pre-API 24), `<linearGradient>`/`<radialGradient>` with `spreadMethod="pad"` (Android API 24+ only), simple `<clipPath>`, transforms on groups. Works in browsers but may break in design tools or mobile.
+* **Tier 3 (Use with caution):** CSS `transform-origin` (Firefox/Chrome disagree on reference box — always set `transform-box: fill-box`), `<use>` (broken in Safari Shadow DOM, unsupported in Figma), `currentColor` (only works inline in DOM, not via `<img>`), `<mask>` (Figma ignores, Android unsupported), `<symbol>` (Figma/Android unsupported).
+* **Tier 4 (Avoid):** `<filter>` elements, `<pattern>`, SMIL animation, `<foreignObject>`, embedded raster `<image>`, `<script>`, external resources, SVG fonts, CSS `@media` inside SVG, `spreadMethod="reflect"/"repeat"`.
+
+**Platform notes:** Email clients have zero reliable SVG support — always rasterize to PNG. Social media (Facebook, Twitter/X, LinkedIn) reject SVG uploads — rasterize to 1200×630 PNG for og:image. Android VectorDrawable supports only paths, basic shapes, group transforms, and solid fills.
 
 ### Size Budget
 * **Simple marks** (monogram, abstract): Target under **1.5KB** uncompressed
@@ -214,6 +237,17 @@ Letters vary dramatically in AI generation reliability. Favor easy letters in br
 * **Keyline Shapes:** Before drawing, choose a keyline: circle, portrait rectangle, landscape rectangle, or square. The mark must fill this keyline consistently. This ensures visual weight consistency if the logo appears alongside other icons.
 * **Content Zone:** Keep all mark elements within the central 80% of the viewBox as a general guide (for `64×64`, roughly `x:6 y:6` to `x:58 y:58`). For formal brand guidelines, define clear space as a **ratio of a mark element** — e.g., "clear space equals the x-height of the wordmark" or "equals the radius of the primary circle" — rather than a fixed percentage. State this ratio in usage notes.
 * **Grid Honesty:** Use the grid to **verify and refine**, not to constrain. Design intuitively first, then check grid alignment. If a shape looks right but doesn't snap perfectly to grid, trust the eye — optical harmony outweighs mathematical perfection.
+
+### Construction Grid Lessons from Iconic Logos
+Professional logos use surprisingly few primitives. Use these patterns as construction guides:
+
+* **Circle-packing (Twitter bird):** Build complex organic forms from overlapping circles of only 2 radii (related by φ ≈ 1.618). The final outline is pure circular arcs (`A` commands). Define radii, place centers, derive the contour via boolean union/difference.
+* **Rotational symmetry (Chase octagon):** 4 identical trapezoid wedges at 0°/90°/180°/270°. Gaps between wedges are built into the shape geometry, not added as spacing. Use `<defs>` + `<use>` with `rotate()`.
+* **Venn overlap (Mastercard):** Two equal circles offset horizontally. The lens intersection is an explicit third path using two arc commands. Three flat colors — no blend modes, no clipping needed.
+* **Modular grid (Slack):** 8 elements (4 lozenges + 4 circles) on a 19×19 grid, arranged at 90° increments. Simple rounded rectangles and circles — nothing complex.
+* **Single continuous stroke (Airbnb Bélo):** One closed `<path>` using cubic Bezier `C`/`S` commands. Proves that meaningful marks can be a single path.
+
+**Golden ratio reality check:** Most "golden ratio" logo analyses are retrofitted after design. Twitter's circle radii genuinely follow φ. Apple's and Google's are post-rationalizations. Use φ as a **starting ratio for proportions**, then adjust optically. The eye outranks the math.
 
 ### Stroke vs. Fill Decision
 * **Fill-based marks** scale better and are more robust. Prefer fills for most archetypes.
@@ -481,6 +515,24 @@ Follow this sequence for every logo generation. Do NOT skip steps.
     * Describe how the logo would appear on at least one real application (app icon, website header, or business card)
     * **Design rationale** (3-4 sentences, honest and proportionate — no pseudo-scientific justification): Why this archetype, what the concept communicates, why this color, and one notable geometric relationship.
 
+### 11A. REVISION & ITERATION PROTOCOL
+
+When the user requests changes, translate their verbal feedback into specific parameter shifts:
+
+| Feedback | Shapes | Colors | Typography | Composition |
+|---|---|---|---|---|
+| "Too corporate" | Rounder, organic curves | Warmer, more saturated | Lowercase, humanist sans | Looser grid, slight asymmetry |
+| "Too playful" | Geometric, angular | Cooler, desaturated, darker | Uppercase, geometric sans | Tight grid, enforce symmetry |
+| "Feels generic" | Strengthen the hook, flip a cliché | Unexpected choice vs. competitors | Distinctive pairing | Add negative space trick |
+| "Too busy" | Remove smallest element, reduce count | Fewer colors (1-2 max) | Simpler face | More whitespace |
+| "Not modern enough" | Clean geometry, flat | Restrained (1-2), contemporary | Sans-serif, lighter weight | Generous whitespace |
+| "Needs more energy" | Diagonals, pointed forms, asymmetry | Higher contrast, bolder | Bolder weight | Tilted axis, off-center |
+| "Make it pop" | Scale up focal element | Increase saturation + contrast | Bolder weight | Isolate with whitespace |
+
+**When to pivot vs. refine:** Refine when feedback targets surface parameters (color, weight, spacing) — the concept is right but the feel needs tuning. Pivot to a new concept when feedback targets the fundamental idea/metaphor, or after 2 refinement rounds without convergence.
+
+**Constraint accumulation:** Each feedback round adds constraints, never removes previously approved ones. "I like the shape but not the color" = lock shape, unlock color. Present 1 refined version per round (not 3 divergent ones) unless the user explicitly asks for alternatives.
+
 ## 12. PRE-FLIGHT CHECKLIST
 Evaluate your SVG against this matrix before outputting. Every box must be checked.
 
@@ -614,3 +666,57 @@ SVG is RGB-only; print requires CMYK conversion. Pipeline: SVG → Adobe Illustr
 
 ### SVG Optimization (SVGO)
 Use SVGO with these plugins **disabled** to protect logo integrity: `removeViewBox`, `cleanupIds` (breaks gradient/clip-path refs), `convertPathData` (can alter precise geometry), `removeTitle`, `removeDesc`. The safe default config typically removes 30-60% file size from editor-exported SVGs without visual impact.
+
+## 15. SVG CODE PATTERNS LIBRARY
+
+Reference patterns for common logo construction tasks. All use `viewBox="0 0 64 64"` with integer coordinates.
+
+### 15A. Rotational Symmetry (3-fold / 4-fold)
+Define one element in `<defs>`, replicate with `<use>` at equal angle intervals. **Always** use the 3-argument `rotate(angle, cx, cy)` — bare `rotate(angle)` rotates around (0,0), sending elements off-canvas.
+```svg
+<defs><path id="petal" d="M32 32 L32 8 Q40 16 32 32Z" fill="#222"/></defs>
+<use href="#petal" transform="rotate(0,32,32)"/>
+<use href="#petal" transform="rotate(120,32,32)"/>
+<use href="#petal" transform="rotate(240,32,32)"/>
+```
+For 4-fold: use 0°, 90°, 180°, 270°. Angles must be exactly `k × (360/N)`. Build gaps into the shape geometry, not as spacing between elements.
+
+### 15B. Boolean Subtraction (Compound Path + evenodd)
+Two subpaths in one `<path>` with `fill-rule="evenodd"`. The inner subpath cuts a hole. **Critical:** A full SVG circle requires TWO semicircular arcs (one arc cannot draw 360°).
+```svg
+<path fill-rule="evenodd" fill="#222" d="
+  M32 4  A28 28 0 1 1 32 60 A28 28 0 1 1 32 4 Z
+  M32 18 A14 14 0 1 0 32 46 A14 14 0 1 0 32 18 Z"/>
+```
+Each subpath must close with `Z` before the next `M`.
+
+### 15C. Overlapping Circles with Explicit Intersection (Mastercard Style)
+Two circles + a lens-shaped third path. For equal-radius circles at (cx1,cy) and (cx2,cy): intersection x = midpoint, y_offset = √(r² − (d/2)²). The lens uses two arcs with `large-arc-flag="0"`.
+```svg
+<circle cx="22" cy="32" r="20" fill="#eb001b"/>
+<circle cx="42" cy="32" r="20" fill="#f79e1b"/>
+<path d="M32 15 A20 20 0 0 1 32 49 A20 20 0 0 1 32 15Z" fill="#ff5f00"/>
+```
+**Common AI error:** Wrong arc flags or sweep direction — produces a crescent instead of a lens.
+
+### 15D. Monogram Cut from Circle
+Letter knocked out of a filled circle via `fill-rule="evenodd"`. Use only straight-line commands for the letter (no curves). Letter must stay strictly inside the circle.
+```svg
+<path fill-rule="evenodd" fill="#222" d="
+  M32 2 A30 30 0 1 1 32 62 A30 30 0 1 1 32 2 Z
+  M20 18 L44 18 L44 26 L36 26 L36 48 L28 48 L28 26 L20 26 Z"/>
+```
+
+### 15E. Reflective Symmetry
+Draw one half, mirror with `translate(2×axis, 0) scale(-1, 1)`. For a `64×64` viewBox mirrored at x=32: `transform="translate(64,0) scale(-1,1)"`. The translate **must** come first in the attribute string (transforms apply right-to-left).
+
+### 15F. Negative Space Mark
+Arrange positive shapes so the gap forms the recognizable shape. **Do not draw the implied shape** — that defeats the purpose. Vertices along shared edges must match exactly. Minimum gap width: 10-12 units at 64×64 for small-size readability.
+
+### Universal AI-Safe SVG Practices
+* Use integer coordinates exclusively within the viewBox
+* Always specify `fill-rule="evenodd"` on compound paths
+* Draw full circles as two semicircular arcs, never one
+* Arc flag mnemonic: quarter/half circle = `large-arc-flag="0"`, more than half = `"1"`
+* Keep individual paths short to minimize coordinate drift
+* Specify layering order explicitly (SVG renders in document order)
