@@ -1,13 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="logo-title logo-desc">
   <title id="logo-title">KV Logo</title>
-  <desc id="logo-desc">Geometric monogram of letters K and V sharing a central diagonal stroke</desc>
+  <desc id="logo-desc">Geometric monogram of letters K and V sharing a central diagonal stroke, constructed on an 8-unit grid</desc>
   <g id="mark-icon">
-    <!-- K: vertical stem + upper arm + shared diagonal (lower leg) -->
-    <polygon fill="#1a1a2e" points="8,8 16,8 16,24 28,8 38,8 22,28 16,28"/>
-    <!-- Shared diagonal + V: the K's lower-right leg becomes V's left leg -->
-    <polygon fill="#1a1a2e" points="16,36 22,36 38,56 30,56"/>
-    <polygon fill="#1a1a2e" points="8,56 16,56 16,36 8,36"/>
+    <!-- K vertical stem -->
+    <rect x="4" y="8" width="8" height="48" fill="#1a1a2e"/>
+    <!-- K upper arm: from stem top-right to upper-right, angled -->
+    <polygon fill="#1a1a2e" points="12,28 12,20 32,8 32,16"/>
+    <!-- Shared diagonal: K lower leg = V left leg -->
+    <polygon fill="#1a1a2e" points="12,36 12,44 32,56 32,48"/>
     <!-- V right leg -->
-    <polygon fill="#1a1a2e" points="38,56 46,8 56,8 42,56"/>
+    <polygon fill="#1a1a2e" points="32,56 32,48 52,8 60,8 60,16"/>
   </g>
 </svg>

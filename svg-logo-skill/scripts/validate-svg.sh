@@ -112,16 +112,21 @@ echo ""
 
 # --- Path Closure ---
 echo "Path Closure:"
-# Extract all d="..." attributes and check each subpath ends with Z/z
-# This is a heuristic: count M/m commands vs Z/z commands in path data
-M_COUNT=$(grep -oE '[Mm]' "$SVG_FILE" 2>/dev/null | wc -l | tr -d ' ' || true)
-M_COUNT=${M_COUNT:-0}
-Z_COUNT=$(grep -oE '[Zz]' "$SVG_FILE" 2>/dev/null | wc -l | tr -d ' ' || true)
-Z_COUNT=${Z_COUNT:-0}
-if [[ $M_COUNT -gt 0 && $Z_COUNT -lt $M_COUNT ]]; then
-  warn "Found $M_COUNT path subpaths but only $Z_COUNT closures (Z) — some paths may be unclosed"
+# Extract only path d="..." attribute content, then count M/m vs Z/z commands
+# This avoids false positives from M in "Mark", "mark-icon", "img", etc.
+PATH_DATA=$(grep -oE ' d="[^"]*"' "$SVG_FILE" 2>/dev/null | tr -d '"' | sed 's/^ d=//' || true)
+if [[ -n "$PATH_DATA" ]]; then
+  M_COUNT=$(echo "$PATH_DATA" | grep -oE '[Mm]' 2>/dev/null | wc -l | tr -d ' ' || true)
+  M_COUNT=${M_COUNT:-0}
+  Z_COUNT=$(echo "$PATH_DATA" | grep -oE '[Zz]' 2>/dev/null | wc -l | tr -d ' ' || true)
+  Z_COUNT=${Z_COUNT:-0}
+  if [[ $M_COUNT -gt 0 && $Z_COUNT -lt $M_COUNT ]]; then
+    warn "Found $M_COUNT path subpaths but only $Z_COUNT closures (Z) — some paths may be unclosed"
+  else
+    pass "Path closure count looks correct ($M_COUNT subpaths, $Z_COUNT closures)"
+  fi
 else
-  pass "Path closure count looks correct ($M_COUNT subpaths, $Z_COUNT closures)"
+  pass "No path elements found (nothing to check)"
 fi
 
 echo ""
