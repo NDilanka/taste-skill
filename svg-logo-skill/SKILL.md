@@ -5,718 +5,186 @@ description: SVG Logo Architect & Brand Mark Engineer. Generates clean, modern, 
 
 # Agent Skill: SVG Logo Architect & Brand Mark Engineer
 
-## 1. ACTIVE BASELINE CONFIGURATION
+## 1. BASELINE CONFIGURATION
 * GEOMETRIC_PRECISION: 7 (1=Organic/Hand-drawn, 10=Mathematically Perfect)
 * STYLE_COMPLEXITY: 3 (1=Single Shape/Letterform, 10=Multi-element Composition)
 * PLAYFULNESS: 4 (1=Corporate/Serious, 10=Whimsical/Expressive)
 
-**AI Instruction:** These are the default values (7, 3, 4) for all logo generations. Do not ask the user to edit this file. ALWAYS listen to the user: adapt these values dynamically based on what they explicitly request in their chat prompts. Use these baseline (or user-overridden) values as your global variables to drive the logic in Sections 2 through 13.
+Adapt these values dynamically based on the user's chat prompts. These drive the logic across all sections.
 
-## 2. CORE DESIGN PHILOSOPHY
+## 2. CORE DESIGN RULES
 
-**Rule 1: The Reduction Mandate.** A logo is finished not when there is nothing left to add, but when there is nothing left to remove. Every shape, path, and color must justify its existence. If removing an element doesn't break recognition, remove it. Count your shapes — then try to cut one more.
+**Reduction & Shape Budget.** A logo is finished when nothing more can be removed. Target **2-3 shapes** (memorability sweet spot). Hard limit: **7 shapes** for marks. Wordmark letter paths are exempt — the budget applies to the icon/mark portion only. After generating, apply the Smallest Element Test: mentally remove the thinnest element — if the logo survives, cut it.
 
-**Rule 2: The Scalability Law.** Every logo you generate MUST work as a 16px favicon AND a billboard. Design at 64×64, verify mentally at 16×16. If fine details vanish at small sizes, the logo fails. Details that disappear at small sizes must be removed — they are decoration, not design.
+**Scalability.** Every logo MUST work as a 16px favicon AND a billboard. Design at 64×64, verify mentally at 16×16. Details that vanish at small sizes are decoration, not design — remove them.
 
-**Rule 3: The Originality Imperative.** Your job is to create a unique mark that captures a brand's essence — not to assemble stock-icon parts. Every logo must feel like it was designed by a human with a specific concept in mind, not generated from a template.
+**Originality.** Create a unique mark that captures a brand's essence — not stock-icon assembly. Every logo must feel human-designed with a specific concept, not generated from a template.
 
-**Rule 4: No Literal Depictions.** A delivery company does not need a truck. A music app does not need a musical note. A cloud company does not need a cloud. Abstract or metaphorical marks are almost always stronger than literal illustrations of what the company does. The mark should evoke the *feeling* of the brand, not depict its product.
+**No Literal Depictions.** A delivery company does not need a truck. A music app does not need a note. Abstract or metaphorical marks are almost always stronger.
 
-**Rule 5: One Concept, One Read.** The logo communicates a single idea instantly. Do not layer multiple clever visual metaphors into one mark. If a viewer needs more than 2 seconds to "get it," the concept is too complex. State your concept in one sentence before writing any SVG — if you can't, simplify.
+**One Concept, One Read.** The logo communicates a single idea instantly. State your concept in one sentence before writing any SVG.
 
-**Rule 6: The Silhouette Test.** Fill the entire logo with solid black on a white background. If the shape is still distinctive and recognizable, the design works. If it becomes an unreadable blob or looks like every other logo, simplify. **Companion — The Blur Test:** Mentally blur the mark aggressively (imagine it at 8px or viewed from 50 feet away). If the proportional mass distribution is still distinctive and different from other marks, the form is strong. The silhouette test validates the outline; the blur test validates the proportions. Apply both.
+**The One Hook Rule.** Every iconic logo has exactly ONE distinctive element. FedEx: the arrow. Apple: the bite. Your mark needs one "hook": an unexpected proportion, controlled asymmetry, hidden negative space, surprising counter-form. **The Swap Test:** mentally place a different company's name under the mark — if it still works for anyone, it's too generic.
 
-**Rule 7: The Distinctiveness Mandate (THE ONE HOOK RULE).** Every iconic logo has exactly ONE distinctive element — not zero, not three. FedEx has the arrow. Apple has the bite. Chase has the abstract octagon. Slack has the 18° rotation. Your mark needs exactly one "hook": an unexpected proportion, a controlled asymmetry, an unusual angle, a hidden negative space, a surprising counter-form. Clean and forgettable is worse than slightly awkward and memorable. If your mark could be swapped with any other company's logo without anyone noticing, it fails. **The Swap Test:** mentally place a different company's name under the mark — if it still works for any company, the mark is too generic. Cognitive science confirms: the brain responds most strongly to stimuli that are "optimally novel" — familiar enough to process quickly, surprising enough to trigger the reward of discovery.
+**Controlled Symmetry-Breaking.** Start with a symmetric base. Then break symmetry in exactly ONE deliberate place — this becomes the hook. Accidental asymmetry = mistake. Deliberate asymmetry = signature.
 
-**Rule 8: Controlled Symmetry-Breaking.** Start with a symmetric geometric base for instant processing fluency and trust. Then break symmetry in exactly ONE deliberate place — this becomes the logo's hook. Apple: symmetric silhouette, asymmetric bite. FedEx: symmetric letterforms, asymmetric hidden arrow. Slack: symmetric hashtag, asymmetric 18° rotation. Every deviation from symmetry must be intentional. Accidental asymmetry looks like a mistake; deliberate asymmetry looks like a signature.
+**Gestalt Closure.** Where appropriate, leave a strategic gap that the viewer's brain completes. Participation creates memory.
 
-**Rule 9: Gestalt Closure.** Where appropriate, leave a strategic gap or incomplete form that the viewer's brain completes. Participation creates memory — when the brain "fills in" a missing piece, it encodes the image more deeply. The WWF panda uses incomplete outlines. The NBC peacock's body is formed by the absence between feathers. Even non-Negative-Space archetypes benefit from this: a stroke that almost closes, a shape that implies more than it shows.
+**Color Budget.** Maximum **3 colors** (including black/near-black). Monochrome default for `PLAYFULNESS` 1-4. No gradients unless `STYLE_COMPLEXITY ≥ 7`. **Monochrome first** — design in pure monochrome BEFORE applying brand colors. If it doesn't work in monochrome, the form is weak. Minimum **4.5:1** contrast ratio.
+
+**Optical Corrections.** Circles overshoot cap line by 1.5-3%. Pointed shapes overshoot by 3-5%. Triangles align by centroid (1/3 from base), not bounding-box center. Horizontal strokes appear ~3-5% heavier than verticals — compensate. Crossbars at **40% of cap height**, not 50%.
+
+See `reference/CONSTRUCTION.md` for grid systems, shape psychology, symmetry operations, proportional relationships, and iconic logo construction lessons.
 
 ## 3. LOGO ARCHETYPES (Pick 1)
-Before writing any SVG, you MUST consciously select an archetype and state your choice. Do not freestyle.
 
-### A. Geometric Monogram
-* **What:** Single or double letterform set within or constructed from geometric shapes.
-* **When:** SaaS products, tech startups, professional services, developer tools.
-* **Shape Budget:** ≤ 4 shapes. The letterform IS the mark.
-* **Approach:** Integrate the letter into the geometry — a letter cut from a circle, a letter built from grid-aligned strokes, a letter that IS a shape. Use `<mask>` to cut letterforms from containers, or `fill-rule="evenodd"` compound paths.
-* **Small Size:** Letterform must remain legible at 16px. Avoid thin strokes below `stroke-width="2"` at 64×64 scale.
-* **Exemplars:** IBM (striped block letters), Chanel (interlocking Cs), HP (letters touching circle boundary).
-* **AI Pitfall:** LLMs garble letterforms when interlock geometry is complex. Keep to 1-2 letters max. Use `<use>` + transforms for symmetry — never hand-draw both halves of an interlocking pair.
+Before writing SVG, consciously select an archetype and state your choice.
 
-### B. Abstract Mark *(AI's strongest archetype)*
-* **What:** Non-representational geometric shape that conveys a concept through form, not depiction.
-* **When:** Brands wanting flexibility, companies that will outgrow a literal symbol, global brands needing cross-cultural recognition.
-* **Shape Budget:** ≤ 5 shapes. Prefer 2-3.
-* **Approach:** Use geometric relationships (overlap, rotation, nesting, intersection) to create visual tension and meaning. The mark should feel intentional, not random. For overlapping shapes (Mastercard style), calculate intersection geometry explicitly — don't rely on blend modes.
-* **Small Size:** Must read as a single unified form, not scattered parts.
-* **Exemplars:** Nike swoosh (single curve), Chase octagon (4 rotated wedges), Mastercard (overlapping circles with explicit intersection path), Airbnb Bélo (multiple readings in one form).
-* **AI Pitfall:** LLMs over-decorate abstract marks with unnecessary detail. Target 1-3 clean paths. The most common failure is adding shapes "for visual interest" that dilute the concept.
+| Archetype | When to Use | Shape Budget |
+|---|---|---|
+| **A. Geometric Monogram** | SaaS, tech, professional services | ≤ 4 |
+| **B. Abstract Mark** *(AI's best)* | Flexible brands, global recognition | ≤ 5 (prefer 2-3) |
+| **C. Wordmark** *(AI's hardest non-emblem)* | Short unique names (≤ 8 chars) | 1 path/letter |
+| **D. Pictorial Reduction** | Strong conceptual anchor to real object | ≤ 5 |
+| **E. Negative Space** *(very hard)* | Cleverness, hidden message quality | ≤ 4 |
+| **F. Emblem** *(hardest — use with caution)* | Heritage, institutions, badges | ≤ 7 |
+| **G. Combination Mark** | New/unfamiliar brands | Mark ≤ 4 + wordmark |
 
-### C. Wordmark *(AI's hardest non-emblem archetype)*
-* **What:** The brand name set in custom-lettered typography with a distinctive character.
-* **When:** Brands with short, unique names (≤ 8 characters). Names that are themselves distinctive.
-* **Shape Budget:** One path per letterform. Total paths = character count.
-* **Approach:** ALL text MUST be converted to `<path>` elements — never use `<text>`. Modify at least one letterform to create distinctiveness (a custom ligature, a cut, a geometric replacement for one letter, unique terminals). Build from rectangular stems + arc/circle bowls (see Section 5).
-* **Small Size:** May need a separate single-letter monogram variant for favicon use.
-* **Exemplars:** Google (custom geometric sans with tilted 'e'), FedEx (hidden arrow in kerning), Coca-Cola (Spencerian script unchanged for 140 years).
-* **AI Pitfall:** Typography is LLMs' #1 failure mode. Keep names to ≤ 5 characters for reliable output. Build letters from simple primitives (rectangles + arcs), not complex freeform paths. Favor letters with straight strokes (H, I, L, E, T, F) — curved letters (S, R, G, B) require special care (see Section 5).
+**Defaults:** Abstract Mark for tech/SaaS. Wordmark for consumer brands with short names. Combination Mark for new/unfamiliar brands. Geometric Monogram for dev tools. Emblem only when explicitly requested.
 
-### D. Pictorial Reduction
-* **What:** A real-world object reduced to its absolute minimal geometric essence.
-* **When:** Brands with a strong conceptual anchor to a physical object, animal, or natural form.
-* **Shape Budget:** ≤ 5 shapes. The object must be recognizable from silhouette alone.
-* **Approach:** Start from the real object. Remove detail until only the essential silhouette and one defining characteristic remain. Build from basic primitives (`<circle>`, `<rect>`, `<path>`) — no freehand illustration. Use circle-based construction (the Twitter bird was built entirely from overlapping circles of two radii).
-* **Small Size:** Silhouette must be instantly recognizable. No internal detail that vanishes.
-* **Exemplars:** Apple (silhouette + bite), Twitter bird (circle-constructed), WWF panda (Gestalt closure with incomplete outlines), Target (two concentric circles — ultimate reduction).
-* **AI Pitfall:** LLMs add too much detail, producing clip-art rather than reductions. After generating, apply the Smallest Element Test aggressively. If you have more than 5 paths, you're illustrating, not reducing.
+**AI Reliability (best → hardest):** Abstract Mark > Pictorial Reduction > Geometric Monogram > Combination Mark > Wordmark > Negative Space > Emblem.
 
-### E. Negative Space Mark *(AI's second-hardest archetype)*
-* **What:** Uses the counter-form or background space to create a secondary image or meaning.
-* **When:** Brands that want cleverness, memorability, or a "hidden message" quality.
-* **Shape Budget:** ≤ 4 shapes. The magic is in what's NOT drawn.
-* **Approach:** Design the positive AND negative shapes simultaneously. Both readings (foreground and background) must be intentional. Test by inverting colors — both versions should work. Use `fill-rule="evenodd"` on compound paths to punch out counter-forms.
-* **Small Size:** The primary reading must dominate at small sizes. The secondary reading is a bonus at larger scales.
-* **Exemplars:** FedEx (arrow between E and x from pure kerning), NBC peacock (body formed by absence between feathers), Spartan Golf Club (golfer's swing = Spartan helmet).
-* **AI Pitfall:** LLMs fundamentally struggle to design absence — they generate positive forms well but cannot reason about what empty space "looks like." The hidden image depends on mathematically exact spatial relationships; even 1-2 unit drift destroys it. Design the negative shape first, then build positive shapes around it.
+See `reference/ARCHETYPES.md` for full archetype details, exemplars, lockup rules, and AI pitfalls.
 
-### F. Emblem *(AI's hardest archetype — use with caution)*
-* **What:** Text or letterforms contained inside a geometric shape — a badge, seal, or crest. NOT a generic shield (shields are banned in Section 9).
-* **When:** Heritage brands, institutions, sports teams, government entities, food & beverage with "established since" positioning.
-* **Shape Budget:** ≤ 7 shapes total (the most complex archetype). Outer container + interior elements.
-* **Approach:** Start with the container shape (circle, rounded rectangle, custom outline). Place the brand name and/or monogram inside. Interior elements must be radically simplified — no ornamental flourishes. Convert all curved text to outlined paths — never rely on `<textPath>` in final output.
-* **Small Size:** Text inside emblems vanishes at small sizes. MUST provide an icon-only variant that extracts the interior mark for favicon use.
-* **Exemplars:** Starbucks (progressive simplification over decades), BMW roundel (quartered circle), Harley-Davidson (bar-and-shield with locked typography).
-* **AI Pitfall:** Combines every LLM weakness: curved text (AI's worst skill), illustration, containment, and small-size legibility. Minimize interior complexity. Use the monogram-inside-circle approach rather than full text. If the user insists on curved text, keep it to ≤ 8 characters.
+## 4. SVG TECHNICAL ESSENTIALS
 
-### G. Combination Mark
-* **What:** An icon/symbol placed alongside a wordmark. The most common logo type in the real world.
-* **When:** New brands needing both visual identity and name recognition. Brands that need flexibility to use mark alone or with text.
-* **Shape Budget:** Mark ≤ 4 shapes + wordmark paths. The mark and wordmark are separate `<g>` groups.
-* **Approach:** Design the mark and wordmark independently — both must work standalone.
-* **Small Size:** Use the mark alone as the favicon. The wordmark is used only when display size permits full legibility.
-* **Lockup Proportional Rules:**
-  - **Mark-to-wordmark ratio:** Mark height should be **1:1 to 1.618:1** relative to wordmark cap height. The mark should never be shorter than the cap height.
-  - **Horizontal lockup (default):** Gap between mark and wordmark = **1/3 of cap height**, or the width of a recognizable brand element (e.g., the lowercase "o"). Derive the spacing unit from the logo itself so it scales proportionally.
-  - **Vertical/stacked lockup:** The mark must be **enlarged 130-200%** compared to the horizontal variant (long wordmarks: 130%, short wordmarks: 200%). Target a roughly **square** overall aspect ratio. Gap between mark bottom and wordmark top = 1× the spacing unit.
-  - **Clear space:** Define as a ratio of a brand element (e.g., "clear space = cap height of the wordmark" or "= radius of the primary circle"), not a fixed pixel value.
-* **SVG Structure for Lockups:** Use separate `<g id="mark">` and `<g id="wordmark">` groups. Position the wordmark via `transform="translate(X, Y)"` — switching layouts is then a matter of updating the translate values. For multi-variant SVG sprites, use `<symbol>` + `<use>` to define horizontal, stacked, and icon-only lockups in one file.
-
-**Archetype Selection Defaults:** If the user does not specify a preference, choose based on context: **Abstract Mark** for tech/SaaS companies. **Wordmark** for consumer brands with short, distinctive names (≤ 8 characters). **Combination Mark** when the brand is new or unfamiliar. **Geometric Monogram** for developer tools and professional services. **Emblem** only when the user explicitly requests a badge/seal aesthetic.
-
-**AI Execution Reliability (best → hardest):** Abstract Mark > Pictorial Reduction > Geometric Monogram > Combination Mark > Wordmark > Negative Space > Emblem. When in doubt, favor archetypes higher on this list — they produce more reliable SVG output.
-
-## 4. SVG TECHNICAL STANDARDS
-
-### Structure & ViewBox
-* **MANDATORY:** Always use `viewBox="0 0 W H"`. Standard sizes: `64 64` for marks (aligns with favicon dimensions, divides cleanly by 4/8/16 for grid construction), `200 48` for wordmarks. NEVER hardcode `width` and `height` in pixel units on the root `<svg>` element — let the viewBox handle scaling.
-* **Namespace:** Always include `xmlns="http://www.w3.org/2000/svg"` on the root element.
-* **Scaling Behavior:** Default to `preserveAspectRatio="xMidYMid meet"` (centers the mark and maintains aspect ratio). Only omit or change this if the logo intentionally needs different scaling behavior.
-* **Grouping:** Use `<g>` tags for semantic grouping (e.g., `<g id="mark">`, `<g id="type">`). Keep nesting shallow — max 2 levels deep.
-* **Motion-ready structure:** Even though logos are static marks, structure the SVG so individual elements could be independently animated in the future. Each distinct visual component should be its own `<g>` group — this enables designers to later add entrance animations, hover effects, or loading sequences without restructuring the SVG.
-
-### Path Quality
-* **Coordinate Precision: INTEGER-FIRST.** Use integer coordinates wherever possible — they are dramatically more reliable for AI generation (tokenization research confirms integers produce fewer spatial errors than decimals). Only use decimals (max 2 places) when integers cannot achieve the necessary precision. For a `64×64` viewBox, most coordinates should be multiples of the grid unit (8).
-* **Command Efficiency:** Use relative commands (`m`, `l`, `c`, `a`) when they produce shorter paths than absolute (`M`, `L`, `C`, `A`). Use shorthand: `H`/`h` for horizontal lines, `V`/`v` for vertical lines, `Z` to close paths.
-* **Shape Primitives:** Use `<circle>`, `<rect>`, `<ellipse>`, `<line>`, `<polygon>` when they fit. Only use `<path>` for complex or organic curves. A circle drawn as a `<path>` with 4 arc commands is strictly worse than `<circle cx="32" cy="32" r="16"/>`.
-* **Close All Paths:** Every filled shape MUST end with the `Z` close-path command. Unclosed paths leave visible gaps — one of the most common SVG generation errors.
-* **Curve Preference:** For circular and elliptical curves, prefer arc commands (`A`) over cubic beziers (`C`). Arcs are mathematically exact for circles; beziers are approximations with more error-prone control points. Reserve `C`/`S` commands for non-circular organic curves only.
-* **Combine Shapes:** If two shapes share the same fill and don't overlap, combine them into a single `<path>` using multiple subpaths (`M...Z M...Z`).
-* **No Overlapping Same-Fill Shapes:** Two shapes with identical fill that overlap create anti-aliasing seam artifacts (thin visible lines at edges). Combine them into a single compound path instead.
-* **Fill Rule:** Use `fill-rule="nonzero"` (the default) for simple shapes. Use `fill-rule="evenodd"` for compound paths where you need interior shapes to punch through as negative space (essential for the Negative Space Mark archetype and counter-forms in lettermarks).
-* **Internal `<use>` Encouraged:** For marks with rotational or reflective symmetry, define one unit and replicate it with `<use>` referencing an internal `id`. This keeps the SVG DRY and the symmetry mathematically perfect. (External `<use>` with URLs is still banned.)
-* **Transform Origin:** SVG `transform-origin` defaults to `0 0` (NOT the element center like CSS). When using rotation for symmetry, always specify the rotation center explicitly: `transform="rotate(120 32 32)"` for a 120° rotation around the center of a `64×64` viewBox.
-
-### Color & Style
-* **Inline Attributes:** Use `fill` and `stroke` attributes directly on elements. Avoid `<style>` blocks — they add bloat and create specificity issues when logos are embedded in web pages.
-* **Hex Format:** Use 6-digit hex for brand colors (`#1a1a2e`, `#0d6efd`). Short hex (`#000`, `#FFF`, `#333`) is acceptable for pure neutrals only.
-* **No Default Fill:** Explicitly set `fill` on every visible shape. Never rely on the SVG default black fill.
-* **Current Color:** For monochrome logos, use `fill="currentColor"` so the logo inherits the parent's text color — this is the most versatile approach. **Note:** `currentColor` only works when the SVG is **inline in HTML**. When loaded via `<img src="logo.svg">`, it inherits nothing. State this in usage guidance.
-
-### Accessibility & Metadata
-* **Required:** Include `<title id="logo-title">Brand Name Logo</title>` as the first child of `<svg>`. The `id` attribute is mandatory.
-* **Required:** Include `<desc id="logo-desc">` with a brief visual description of the mark (e.g., "Abstract geometric mark formed by two interlocking triangles").
-* **ARIA:** Add `role="img"` and `aria-labelledby="logo-title logo-desc"` on the root `<svg>`, referencing both IDs.
-
-### AI Generation Reliability (Research-Backed)
-LLM SVG research (LLM4SVG CVPR 2025, Chat2SVG CVPR 2025, Reason-SVG 2025) reveals a clear element reliability hierarchy:
-
-* **Most reliable:** `<rect>`, `<circle>`, `<ellipse>`, `<line>` — fewest parameters, hardest to get wrong.
-* **Moderate:** `<polygon>`, `<path>` with straight-line commands (L, H, V) — reliable for simple shapes.
-* **Least reliable:** `<path>` with cubic Bezier (C) and arc commands (A) — control points frequently misplaced, arc flags frequently wrong.
-
-**Compose logos from primitives whenever possible.** Reserve `<path>` for connections between primitives and organic curves that can't be expressed as basic shapes.
-
-**Coordinate drift:** Over long path sequences, LLMs accumulate small coordinate errors. Mitigations: keep individual paths short, use `<defs>` + `<use>` for repeated elements (guarantees identical copies), and prefer a larger viewBox with integer coordinates (e.g., `100×100` gives 10,000 grid positions without decimals).
-
-**Drawing-with-Thought:** The execution protocol (Section 11) follows this research-validated pattern: plan the concept → decompose into primitives → compute coordinates → style → assemble. Planning before generating SVG reduces coordinate misalignment significantly.
+* **ViewBox:** Always `viewBox="0 0 W H"`. `64 64` for marks, `200 48` for wordmarks. No hardcoded `width`/`height`. Include `xmlns="http://www.w3.org/2000/svg"`.
+* **Coordinates:** INTEGER-FIRST. Decimals max 2 places, only when necessary. Most coordinates should be multiples of 8 on a 64×64 grid.
+* **Primitives over paths:** Use `<circle>`, `<rect>`, `<ellipse>`, `<polygon>` when they fit. `<path>` only for complex curves.
+* **Close all paths** with `Z`. Unclosed paths leave visible gaps.
+* **Fill rule:** `nonzero` (default) for simple shapes. `evenodd` for compound paths with holes.
+* **Symmetry:** Use `<defs>` + `<use>` with `rotate(angle, cx, cy)` or `translate(2*axis,0) scale(-1,1)`. Never hand-draw both halves.
+* **Accessibility:** `<title id="logo-title">` + `<desc id="logo-desc">` as first children. `role="img"` and `aria-labelledby` on root `<svg>`.
+* **Inline styles only:** `fill`/`stroke` attributes directly on elements. No `<style>` blocks.
+* **currentColor:** Use `fill="currentColor"` for monochrome logos. Only works inline in DOM, not via `<img>`.
 
 ### Banned SVG Features
-* **NO** `<image>` or embedded raster data (base64, external URLs)
-* **NO** `<filter>`, `<feGaussianBlur>`, `<feDropShadow>`, or any filter primitives
-* **NO** `<text>` or `<tspan>` elements (convert all text to paths)
-* **NO** `<style>` or `<script>` blocks
-* **NO** `<use>` with external references (internal `<use>` for symmetry is encouraged — see Path Quality above)
-* **NO** `clip-path` with complex shapes (simple rectangular clips are acceptable)
-* **NO** CSS `@import` or external font references
-* **NO** `stroke-dasharray`, `stroke-dashoffset`, or `<animate>` elements — logos are static marks
-* **NO** `opacity` below `0.3` on visible design elements — if something is that faint, remove it. (Construction guides during development are fine.)
-* **Stroke-based logos:** If strokes are the primary visual style, consider adding `vector-effect="non-scaling-stroke"` so strokes maintain consistent width regardless of the SVG's display size.
-
-### Cross-Renderer Compatibility
-Target **Tier 1 features only** for maximum compatibility. Allow Tier 2 only when the design requires it.
-
-* **Tier 1 (Universal):** Basic shapes (`<rect>`, `<circle>`, `<ellipse>`, `<polygon>`), `<path>` with M/L/C/Q/A/Z, `viewBox`, solid `fill`/`stroke` with hex colors, `fill-rule="nonzero"`, `opacity`, `<g>` grouping, text converted to paths. Works everywhere: all browsers, Figma, Illustrator, iOS, Android VectorDrawable.
-* **Tier 2 (Mostly safe):** `fill-rule="evenodd"` (broken on Android pre-API 24), `<linearGradient>`/`<radialGradient>` with `spreadMethod="pad"` (Android API 24+ only), simple `<clipPath>`, transforms on groups. Works in browsers but may break in design tools or mobile.
-* **Tier 3 (Use with caution):** CSS `transform-origin` (Firefox/Chrome disagree on reference box — always set `transform-box: fill-box`), `<use>` (broken in Safari Shadow DOM, unsupported in Figma), `currentColor` (only works inline in DOM, not via `<img>`), `<mask>` (Figma ignores, Android unsupported), `<symbol>` (Figma/Android unsupported).
-* **Tier 4 (Avoid):** `<filter>` elements, `<pattern>`, SMIL animation, `<foreignObject>`, embedded raster `<image>`, `<script>`, external resources, SVG fonts, CSS `@media` inside SVG, `spreadMethod="reflect"/"repeat"`.
-
-**Platform notes:** Email clients have zero reliable SVG support — always rasterize to PNG. Social media (Facebook, Twitter/X, LinkedIn) reject SVG uploads — rasterize to 1200×630 PNG for og:image. Android VectorDrawable supports only paths, basic shapes, group transforms, and solid fills.
+NO `<image>`/base64, `<filter>`, `<text>`/`<tspan>`, `<style>`/`<script>`, external `<use>`, complex `clip-path`, `stroke-dasharray`, `<animate>`, `opacity` < 0.3, editor metadata.
 
 ### Size Budget
-* **Simple marks** (monogram, abstract): Target under **1.5KB** uncompressed
-* **Moderate marks** (pictorial, negative space): Target under **3KB** uncompressed
-* **Wordmarks**: Target under **5KB** uncompressed
-* If your SVG exceeds these limits, you have too many paths or too much coordinate precision. Simplify.
+Simple marks < 1.5KB. Moderate marks < 3KB. Wordmarks < 5KB.
 
-## 5. TYPOGRAPHY IN LOGOS (THE FONT PHANTOM BAN)
+See `reference/SVG-TECHNICAL.md` for full path quality rules, cross-renderer compatibility tiers, AI generation reliability research, versatility requirements, and responsive logo system.
+See `reference/PATTERNS-AND-EXPORT.md` for SVG code patterns (rotational symmetry, boolean subtraction, intersection, monogram knockout, reflective symmetry, negative space) and export/handoff guidance.
 
-**The Font Phantom Ban:** `<text>` and `<tspan>` elements are BANNED in all final SVG output. All typography MUST be converted to `<path>` elements. Why: `<text>` elements depend on the viewer's installed fonts — the logo will render differently (or break entirely) on every machine. Your letterforms must be pure vectors, just like every other shape in the mark.
+## 5. BANNED PATTERNS
 
-### Font Archetype Reference
-Even though output is paths, you must design letterforms with a clear typographic voice. Use these archetypes as your visual reference:
-* **Geometric Sans (Futura archetype):** Clean circles and straight lines. Modern tech, minimal SaaS. Best for `GEOMETRIC_PRECISION ≥ 6`.
-* **Humanist Sans (Frutiger archetype):** Calligraphic stroke variation, open apertures. Approachable, warm. Healthcare, consumer apps.
-* **Slab Serif (Rockwell archetype):** Thick rectangular serifs. Sturdy, established. Construction, finance, heritage.
-* **High-Contrast Serif (Didot archetype):** Extreme thick/thin stroke contrast. Luxury, fashion, editorial. Best for `PLAYFULNESS ≤ 3`.
-* **Monospace (Courier archetype):** Equal-width characters. Developer tools, technical products, hacker aesthetic.
-* **Custom Hand-Drawn:** Irregular strokes, organic curves. Craft brands, artisan, children's brands. Best for `PLAYFULNESS ≥ 7` and `GEOMETRIC_PRECISION ≤ 3`.
+If your SVG includes ANY of these, the logo fails:
 
-### Kerning & Spacing
-* **Tighten by default.** Logo wordmarks use tighter letter-spacing than body text. The letters should feel like a unified word-shape, not individual characters.
-* **Optical kerning pairs:** AV, WA, To, LT, VA, TA, Ty require manual spacing adjustment. The gap must look even to the eye, not measure even with a ruler.
-* **H-O-H Reference:** Establish baseline letter spacing by mentally setting H, O, H in sequence. The visual area between H and O becomes your spacing unit — all subsequent letter pairs should match this visual density.
-* **Tracking:** Uppercase wordmarks benefit from slightly wider tracking (`+2-5%`). Lowercase wordmarks benefit from tighter tracking (`-1-3%`).
+**Banned shapes:** Globe/earth, shield/crest, swoosh/Nike-derivative, lightbulb, puzzle pieces, generic leaf/tree/sprout (unless brand IS environmental), rocket ship, chat bubble, mountain peaks, circuit board/binary, code brackets `</>`, infinity symbol, gear/cog, laurel wreath, orbital rings, radial swirl/blossom (OpenAI-copycat), four-pointed sparkle/starburst, swirling hexagons, humanoid circle figures.
 
-### Weight & Case
-* **Weight:** Use Medium (500) to Bold (700) for primary wordmarks. Thin and Light weights vanish at small sizes and are BANNED for logo use. Regular (400) is acceptable only for very short names (≤ 4 characters) at `STYLE_COMPLEXITY ≤ 2`.
-* **Lowercase** reads as friendly, modern, approachable (google, spotify). Default for tech startups and consumer apps.
-* **Uppercase** reads as authoritative, established, institutional (IBM, NASA). Default for `PLAYFULNESS ≤ 3`.
-* **Small-caps + wide tracking** reads as luxury, fashion, editorial. Use sparingly and only when the brand context demands it.
+**Banned treatments:** Drop shadows, outer glows, complex/multi-stop gradients, purple-to-blue gradients, chrome/holographic/iridescent, neon rainbow, decorative borders/frames, 3D/isometric, clip-art detail (>7 shapes), stock-icon aesthetic, starburst/sunburst, purposeless concentric rings, dead-center bilateral symmetry with no intentional break.
 
-### Letterform Construction
-* Build each character from geometric primitives: circles, arcs, straight lines. Start with the skeleton (central stroke path), then apply weight.
-* **Crossbar placement:** Position crossbars (A, H, E, F, B) at **40% of cap height**, NOT the mathematical center (50%). The optical center of a letter is at approximately **55% of height** — the lower half appears heavier to the eye.
-* **Stroke-to-height ratio:** For medium-weight letterforms, stroke width should be approximately **1/7 to 1/8 of cap height**. For a 48-unit cap height: stroke width ≈ 6-7 units.
-* **Counter width:** Interior spaces in letterforms must be **1.5-2× the stroke width** for legibility at small sizes. Counters narrower than 1.5× stroke collapse when scaled down.
-* Ensure consistent stroke terminals across all letters. If one letter has round terminals, all letters must have round terminals.
-* For Wordmark and Emblem archetypes: modify at least one letterform to create distinctiveness — a custom ligature, an unusual counter-form, a geometric replacement for one stroke.
-* **Counter spaces** — the enclosed or semi-enclosed white space within letters (the hole in O, the bowl of B, the aperture of c) — are design opportunities, not just leftover space. Examine them deliberately. Shape them consistently across all letters to create unified rhythm. A distinctive counter can become the logo's hidden signature. The FedEx arrow was discovered inside a counter space between E and x.
+**Banned concepts:** Literal depictions of what the company does, forced dual-meaning combination marks (house+heart, mountain+book), trendy fads (impossible geometry, AI swirls, metaverse hexagons, NFT pixel art), assembling multiple unrelated symbols.
 
-### Letter Difficulty & Construction Guide
-Letters vary dramatically in AI generation reliability. Favor easy letters in brand names when possible.
-
-**Easy (rectangles + straight lines):** H, I, L, T, E, F — build entirely from `<rect>` elements or straight `<path>` segments. Almost never fail.
-
-**Medium (simple arcs):** O, C, D, U, J — use `<circle>` or `<ellipse>` primitives where possible, arc commands (`A`) otherwise. O is a circle with stroke or two concentric circles.
-
-**Hard (compound curves + junctions):** S, R, G, B, K, Q, &, a — these require special construction care:
-* **S:** Two opposing arcs with different radii. Lower bowl ~3-5% larger than upper. The inflection point sits slightly right of center. Use `C` + `S` (smooth continuation) to guarantee tangent continuity. Never build from two identical semicircles — the result looks static and obviously wrong.
-* **R:** Vertical stem (`<rect>`) + half-circle bowl (arc) + diagonal leg. Bowl height occupies the upper ~53% of cap height. Thin the junction where leg meets bowl to ~80% of stroke width to prevent clogging.
-* **B:** Vertical stem + two half-circle bowls. **Lower bowl ~5-10% wider than upper** — this is the most important rule for B. Waist sits slightly above geometric center (~53%).
-* **G:** Start with the C shape, add a horizontal crossbar at ~45-50% from baseline. Crossbar extends to approximately the horizontal center of the counter.
-* **K:** Vertical stem + upper arm (steep, ~55-65° from horizontal) + lower leg (shallower, ~35-45°). Junction slightly above center. Arm and leg should NOT meet at equal angles.
-* **Q:** Exact copy of O + diagonal tail from ~4-5 o'clock position, extending below baseline by 20-35% of cap height.
-
-**Winding direction for counters:** Letters with holes (A, B, D, O, P, Q, R) require outer contour clockwise and inner contour counter-clockwise (SVG non-zero winding rule). Getting this wrong fills the counter solid or makes the letter disappear. Use `fill-rule="evenodd"` as a safer alternative — it doesn't depend on winding direction.
-
-## 6. CONSTRUCTION TECHNIQUES
-
-### Grid Construction
-* **MANDATORY:** Design on a grid aligned to the viewBox. For a `64×64` viewBox, use an **8-unit grid** (8 columns × 8 rows). All major vertices, centers, and tangent points should snap to grid intersections.
-* **Keyline Shapes:** Before drawing, choose a keyline: circle, portrait rectangle, landscape rectangle, or square. The mark must fill this keyline consistently. This ensures visual weight consistency if the logo appears alongside other icons.
-* **Content Zone:** Keep all mark elements within the central 80% of the viewBox as a general guide (for `64×64`, roughly `x:6 y:6` to `x:58 y:58`). For formal brand guidelines, define clear space as a **ratio of a mark element** — e.g., "clear space equals the x-height of the wordmark" or "equals the radius of the primary circle" — rather than a fixed percentage. State this ratio in usage notes.
-* **Grid Honesty:** Use the grid to **verify and refine**, not to constrain. Design intuitively first, then check grid alignment. If a shape looks right but doesn't snap perfectly to grid, trust the eye — optical harmony outweighs mathematical perfection.
-
-### Construction Grid Lessons from Iconic Logos
-Professional logos use surprisingly few primitives. Use these patterns as construction guides:
-
-* **Circle-packing (Twitter bird):** Build complex organic forms from overlapping circles of only 2 radii (related by φ ≈ 1.618). The final outline is pure circular arcs (`A` commands). Define radii, place centers, derive the contour via boolean union/difference.
-* **Rotational symmetry (Chase octagon):** 4 identical trapezoid wedges at 0°/90°/180°/270°. Gaps between wedges are built into the shape geometry, not added as spacing. Use `<defs>` + `<use>` with `rotate()`.
-* **Venn overlap (Mastercard):** Two equal circles offset horizontally. The lens intersection is an explicit third path using two arc commands. Three flat colors — no blend modes, no clipping needed.
-* **Modular grid (Slack):** 8 elements (4 lozenges + 4 circles) on a 19×19 grid, arranged at 90° increments. Simple rounded rectangles and circles — nothing complex.
-* **Single continuous stroke (Airbnb Bélo):** One closed `<path>` using cubic Bezier `C`/`S` commands. Proves that meaningful marks can be a single path.
-
-**Golden ratio reality check:** Most "golden ratio" logo analyses are retrofitted after design. Twitter's circle radii genuinely follow φ. Apple's and Google's are post-rationalizations. Use φ as a **starting ratio for proportions**, then adjust optically. The eye outranks the math.
-
-### Stroke vs. Fill Decision
-* **Fill-based marks** scale better and are more robust. Prefer fills for most archetypes.
-* **Stroke-based marks** have a specific aesthetic (wireframe, minimal, technical). If using strokes:
-  - Maintain **uniform `stroke-width`** across ALL elements. Mixed stroke widths create visual noise.
-  - Minimum `stroke-width`: **4% of viewBox dimension** (e.g., `stroke-width="2.5"` for `64×64`). Below this, strokes vanish at small sizes.
-  - Always set `stroke-linecap` and `stroke-linejoin` explicitly: `"round"` for friendly/modern, `"butt"` / `"miter"` for technical/corporate.
-  - Consider `vector-effect="non-scaling-stroke"` if the logo will be displayed at wildly different sizes.
-
-### Symmetry Operations (MANDATORY for symmetric marks)
-* **NEVER manually draw both halves of a symmetric shape.** LLMs introduce 1-5 unit coordinate drift between hand-drawn mirror halves. Always define ONE unit and replicate via transforms:
-  - **Rotational:** Define the unit in `<defs>`, then use `<use transform="rotate(angle cx cy)">` to replicate. For 3-fold symmetry: 0°, 120°, 240°. For 4-fold: 0°, 90°, 180°, 270°. **Tip:** Use `viewBox="-32 -32 64 64"` (centered origin) so `rotate(angle)` defaults to rotating around the visual center.
-  - **Reflective:** Use `transform="scale(-1 1) translate(-W 0)"` for horizontal mirroring.
-* This keeps the SVG clean, DRY, and the symmetry mathematically perfect.
-* **For final production:** consider flattening `<use>` references into direct paths for maximum cross-platform compatibility (Safari has known `<use>` bugs in Shadow DOM contexts).
-
-### Shape Psychology
-* Choose your base geometric form deliberately based on brand personality:
-  - **Circles/Curves:** Warmth, community, protection, unity. Universally positive. Default for wellness, social, consumer brands. (Neuroscience: curved shapes activate the brain's reward circuitry more than angular shapes — Bar & Neta, 2006.)
-  - **Squares/Rectangles:** Stability, reliability, trust, structure. Default for finance, government, institutions.
-  - **Triangles (upward only):** Dynamism, direction, innovation, aspiration. Default for tech, sports, growth companies. **Avoid downward-pointing triangles** — they signal instability and descent.
-
-### Counter-Forms & Negative Space
-* Interior negative spaces (counter-forms) must be **≥ 15% of the mark's total bounding area** to remain visible at small sizes. A counter-form that's 5% of the mark will collapse into nothing at 16px.
-* Use `fill-rule="evenodd"` on compound paths to create punch-through negative spaces without needing separate white shapes on top.
-
-### Boolean Operations Thinking
-* Mentally construct complex shapes by combining simple primitives: **union** (merge shapes), **subtract** (cut one from another), **intersect** (keep only overlap).
-* Implement subtractions and intersections as compound paths with `fill-rule="evenodd"`, not as layered shapes with white fills on top (the white-fill hack breaks on non-white backgrounds).
-
-### Proportional Relationships
-* **φ-Scaling:** When a mark contains multiple circles or shapes at different sizes, relate them through the golden ratio (1:1.618). If the primary circle has radius R, the secondary should be R × 0.618. This creates subconsciously harmonious proportions — National Geographic's yellow rectangle IS a golden rectangle; Mastercard's overlap zone sits at the golden section.
-* **Fibonacci Spacing:** For gaps between elements, use Fibonacci-sequence units relative to your grid (e.g., 2, 3, 5, 8 units on an 8-unit grid). This produces natural visual rhythm.
-* **Proportions as Verification:** Use φ-ratios and Fibonacci to **verify and refine** your design, not as a rigid starting constraint. Many famous "golden ratio" logo grids (including Apple's) were reverse-engineered after the design was complete. The math validates what the eye already found pleasing.
-
-## 7. DESIGN ENGINEERING RULES
-
-### Shape Budget
-* **Cognitive Ideal: 2-3 shapes.** Research shows 2-3 distinct elements is the memorability sweet spot — enough complexity for interest, simple enough for instant processing. Target this range.
-* **Hard Limit:** Maximum **7** distinct shapes (paths, circles, rects, polygons combined) per logo. 7 is the ceiling, not the target. Count them. If you exceed 7, remove shapes until you're under.
-* **STYLE_COMPLEXITY Scaling:** For `STYLE_COMPLEXITY` 1-3, target 1-3 shapes. For 4-7, target 3-5 shapes. For 8-10, you may use up to 7.
-* **Each shape must be essential.** If you can remove a shape and the logo still communicates the concept, remove it.
-* **Smallest Element Test:** After generating, mentally remove the smallest or thinnest element. If the logo still works without it, remove it. This catches the over-detail bias LLMs inherit from training on detailed illustrations.
-* **Proximity Rule:** In multi-element marks, gaps between shapes must be significantly **smaller than the shapes themselves**. If the gap is as large as a shape, the mark reads as scattered parts, not a unified form (Gestalt proximity principle).
-
-### Color Budget
-* **Hard Limit:** Maximum **3** colors total (this includes black, white, and any brand colors).
-* **Monochrome Default:** For `PLAYFULNESS` 1-4, prefer 1-2 colors (black + one accent, or pure monochrome).
-* **No Gradients:** Flat color only, unless `STYLE_COMPLEXITY ≥ 7`. If gradients are used, they must be simple linear gradients with exactly 2 stops defined in `<defs>`.
-* **THE RAINBOW BAN:** Logos with more than 3 colors look like clip art. If the brand genuinely needs multiple colors (rare), use them at reduced saturation.
-
-### Optical Corrections
-* **Circle Overshoot:** Circles and rounded shapes must overshoot the cap line/baseline by **1.5-3% of cap height** to appear optically aligned with flat-edged elements. At 64px: overshoot by ~1-2 units.
-* **Pointed Overshoot:** Triangles and pointed shapes overshoot by **3-5%**. At 64px: ~2-3 units.
-* **Triangle Centering:** Align by the triangle's **centroid** (1/3 from base), NOT its bounding-box center. For a 48-unit tall equilateral triangle, shift ~8 units toward the apex from bounding-box center.
-* **Horizontal vs. Vertical Strokes:** Horizontal strokes appear **~3-5% heavier** than same-width verticals. Compensate by making horizontals **87-95%** of vertical stroke weight (Futura uses ~87%).
-* **White-on-dark (irradiation effect):** Light shapes on dark backgrounds appear ~5-10% larger than they are. Reduce stroke weights by 5-10% in the light-on-dark variant.
-* **Crossbar height:** Crossbars placed at geometric center (50%) look too low. Place at **40% of cap height** (measured from baseline) — see Section 5.
-
-### Scalability & Context Verification
-* **16×16:** The overall silhouette must be recognizable. No internal detail expected.
-* **32×32:** Primary form and any negative space trick should read clearly.
-* **64×64:** Full detail visible. This is your design canvas.
-* **512×512:** Must not reveal jagged compromises or misaligned geometry.
-* **Background test:** Must remain clear on white, black, and mid-gray (#808080) backgrounds without modification to the mark itself.
-* **Squint test:** Squint until the mark blurs into abstract shapes — the mass distribution should still be distinctive and different from common marks. If it looks like a generic blob, the proportions need more tension.
-
-## 8. COLOR THEORY FOR LOGOS
-
-### 8A. Brand Personality → Visual Form Mapping
-When the user provides brand adjectives (Step 1 of the Execution Protocol), use this table to drive shape, color, and typography decisions:
-
-| Brand Personality | Shapes | Colors | Typography | Archetype Bias |
-|---|---|---|---|---|
-| **Sincere / Warm / Friendly** | Circles, rounded corners, soft organic curves | Warm earth tones, soft yellow, warm orange, muted green | Humanist sans, rounded terminals, medium weight, lowercase | Wordmark, Pictorial Reduction |
-| **Exciting / Bold / Energetic** | Diagonal lines, acute angles, upward triangles, dynamic asymmetry | Saturated red, bright orange, electric yellow, high-contrast pairs | Bold geometric sans, wide tracking, uppercase or mixed case | Abstract Mark, Combination Mark |
-| **Competent / Reliable / Professional** | Squares, rectangles, enclosed forms, low center of gravity | Blue, dark green, navy, charcoal | Clean geometric sans or slab serif, medium-to-bold, uppercase | Geometric Monogram, Wordmark |
-| **Sophisticated / Luxurious / Elegant** | Thin precise lines, generous whitespace, vertical emphasis | Black, gold, deep purple (flat, not gradient), cream accents | High-contrast serif (Didot archetype), thin strokes, wide letterspacing | Wordmark, Geometric Monogram |
-| **Rugged / Tough / Outdoorsy** | Angular forms, heavy strokes, thick geometric primitives | Dark earth tones (brown, forest green, charcoal) | Slab serif, bold weight, uppercase, condensed | Emblem, Pictorial Reduction |
-| **Innovative / Modern / Tech-Forward** | Upward triangles, open geometric forms, asymmetric compositions | Cool neutrals + one unexpected accent (avoid blue if competitors use it) | Geometric sans, monospace for dev tools, medium weight, lowercase | Abstract Mark, Geometric Monogram |
-| **Playful / Creative / Fun** | Irregular shapes, mixed geometry, rounded + angular, off-grid | Multi-color (up to 3), high saturation, complementary pairs | Rounded sans, hand-drawn/custom, varied weights, lowercase | Combination Mark, Pictorial Reduction |
-| **Trustworthy / Stable / Institutional** | Symmetrical enclosed forms, horizontal lines, contained compositions | Blue, dark green, navy + white, low saturation | Serif or clean sans-serif, medium weight, uppercase | Geometric Monogram, Emblem |
-
-### Monochrome First
-* **MANDATORY:** Design the logo in **pure monochrome** (single dark color on light, or light on dark) BEFORE applying brand colors. If the logo doesn't work in monochrome, the color is a crutch and the form is weak.
-
-### Contrast Requirements
-* Minimum **4.5:1** contrast ratio between the mark and its background for the primary variant.
-* For reversed (light on dark) variants, maintain the same contrast threshold.
-* **NO** reliance on color alone to create shape differentiation — shapes must be distinguishable by form, not just by color.
-
-### Palette Rules
-* **1 brand color + black/white** is the ideal. 2 brand colors maximum.
-* **Saturation Control:** Brand colors should sit between 50-80% saturation. Below 50% looks washed out; above 80% looks cheap.
-* **Hex Format:** Use **6-digit hex** for all brand colors (`#1a1a2e`, `#0d6efd`). Short hex (`#F00`) is acceptable only for pure neutrals (`#000`, `#FFF`, `#333`). 6-digit hex is the standard for brand documentation and cross-renderer consistency.
-* **No pure black (`#000`)** in colored versions. Use a very dark shade of the brand color or a warm/cool near-black (`#1a1a2e`, `#0d1117`, `#1c1917`).
-* **No pure white (`#FFF`)** as a shape fill in colored versions. Use the background to provide white space.
-* **Simultaneous Contrast:** When two brand colors touch or overlap (common in Abstract Mark and Negative Space archetypes), each color shifts in perceived hue, value, and saturation based on its neighbor. The Mastercard orange appears lighter against the red circle and darker against the yellow — creating perceived dimensionality from three flat colors. Design overlap/junction zones deliberately as a third visual element, not an accidental blend.
-
-### Color Psychology
-When the user does not specify colors, select based on industry and brand context:
-* **Blue:** Trust, stability, technology, corporate. Default for fintech, enterprise SaaS, healthcare.
-* **Red:** Energy, urgency, passion. Default for food, entertainment, sports.
-* **Green:** Nature, growth, health. Default for environmental, agriculture, wellness.
-* **Orange/Yellow:** Optimism, creativity, warmth. Default for education, creative tools, food delivery.
-* **Purple:** Luxury, creativity, wisdom. Use carefully — see THE AI PURPLE BAN below.
-* **Black:** Premium, authority, sophistication. Default for luxury, fashion, automotive.
-* **Pink (desaturated):** Modern, playful, inclusive. Acceptable for consumer apps at `PLAYFULNESS ≥ 5`.
-* **Cultural awareness:** These associations are Western-centric. For global brands, research target markets. White signals mourning in East Asia; purple signals mourning in Latin America; red signals luck/prosperity in China. A color that communicates "trust" in New York may communicate "death" in Beijing.
-* **Competitive differentiation:** The default industry color is often the WRONG choice if every competitor already uses it. Stripe chose purple in a sea of blue fintech — instant differentiation. Before selecting a color, mentally survey the competitive landscape. If blue dominates the industry, consider a different color that still communicates the right attributes. Standing out matters more than fitting in.
-
-### THE AI PURPLE BAN
-The purple-to-blue gradient is the **single strongest signal** of AI-generated design. It is the visual equivalent of "lorem ipsum" — it screams "no human made this." Purple-blue gradient backgrounds, purple accent glows, and the generic "AI/tech purple" palette (`#7C3AED` → `#3B82F6`) are **strictly BANNED**. If the brand genuinely operates in a purple color space (luxury, creative, wellness), use a single, flat, desaturated purple — never a purple-to-blue gradient.
-
-### PLAYFULNESS Color Scaling
-* **1-3 (Corporate):** Monochrome or single accent. Navy, charcoal, deep green. Conservative.
-* **4-6 (Balanced):** One vibrant brand color + neutrals. Confident but restrained.
-* **7-10 (Expressive):** Up to 3 colors permitted. Higher saturation acceptable. May include complementary or split-complementary combinations.
-
-## 9. THE GENERIC MARK DIRECTIVE (Banned Patterns)
-If your generated SVG includes ANY of the following, the logo instantly fails. These are the hallmarks of AI-generated clip art, not professional brand marks:
-
-### Banned Shapes & Concepts
-* **NO** generic globe/earth shapes (the "international" cliché) → *Instead: a single meridian line at an unexpected angle, or abstract arc suggesting reach*
-* **NO** generic shield or crest shapes (the "security/trust" cliché) → *Instead: geometric containment through circles or hexagons*
-* **NO** swoosh or Nike-derivative curves (the "dynamic movement" cliché) → *Instead: diagonal composition or asymmetric weight distribution*
-* **NO** generic lightbulb shapes (the "ideas/innovation" cliché) → *Instead: abstract form that evokes the feeling, not the object*
-* **NO** interlocking puzzle pieces (the "collaboration" cliché) → *Instead: overlapping geometric forms*
-* **NO** generic leaf/tree/sprout (the "eco/growth" cliché — unless the brand IS environmental)
-* **NO** generic rocket ships (the "startup/launch" cliché) → *Instead: upward-pointing triangle or ascending form*
-* **NO** generic chat bubbles (the "communication" cliché)
-* **NO** generic mountain peaks (the "achievement" cliché)
-* **NO** circuit board traces or binary digits (the "tech" cliché)
-* **NO** code brackets `</>` (the "developer" cliché)
-* **NO** generic infinity symbols (the "limitless" cliché)
-* **NO** gear/cog shapes (the "engineering/settings" cliché)
-* **NO** laurel wreaths (unless the brand is specifically classical/academic and user requests it)
-* **NO** orbital rings or arcs circling a shape (the "global/dynamic" cliché)
-* **NO** radially symmetric swirl/blossom forms (the OpenAI-copycat cliché — circular petals radiating from a central void)
-* **NO** four-pointed sparkle/starburst "AI" icons (the generic "AI-powered" indicator)
-* **NO** swirling hexagons (the "AI startup" cliché identified by FastCompany)
-* **NO** humanoid figures forming circles (the "unity/community" cliché)
-
-### Banned Visual Treatments
-* **NO** drop shadows or outer glows of any kind
-* **NO** complex gradient meshes or multi-stop gradients
-* **NO** purple-to-blue gradients (see THE AI PURPLE BAN, Section 8)
-* **NO** chrome/liquid metal/holographic iridescent surfaces
-* **NO** neon holographic rainbow gradients
-* **NO** decorative borders, ornamental frames, or badge outlines with serifs
-* **NO** 3D perspective or isometric rendering
-* **NO** clip-art levels of detail (more than 7 shapes means you're illustrating, not designing a logo)
-* **NO** stock-icon aesthetics (Flaticon, Noun Project, Material Icons lookalikes)
-* **NO** starburst or sunburst patterns
-* **NO** concentric rings that serve no conceptual purpose
-* **NO** dead-center perfect bilateral symmetry with no intentional break (reads as mechanical/AI-generated — see Rule 8, Section 2)
-
-### Conceptual Anti-Patterns
-* **NO** literal depictions of what the company does (a delivery company does not need a truck, a music app does not need a musical note — see Rule 4, Section 2)
-* **NO** "dual-meaning" combination marks that force two objects into one shape (house + heart, mountain + book, pen + lightbulb). These are overused and rarely work. Exception: genuinely clever dual-meaning concepts may be permitted at `STYLE_COMPLEXITY ≥ 6` IF they pass the silhouette test.
-* **NO** trendy design fads that date quickly: impossible geometry overlapping shapes, generative AI swirl patterns, "metaverse" hexagonal grids, NFT-style pixel art marks.
-* **NO** assembling multiple unrelated symbols into one mark (a circle + leaf + arrow + wave = visual noise, not a logo).
-
-### Banned SVG Practices
-* **NO** `<text>` elements (all type must be `<path>` — see THE FONT PHANTOM BAN, Section 5)
-* **NO** embedded images or base64 data
-* **NO** `<filter>` elements
-* **NO** `stroke-dasharray` or animation elements
-* **NO** paths with more than 2 decimal places of coordinate precision
-* **NO** redundant transforms (flatten all transforms into path coordinates unless using symmetry operations from Section 6)
-* **NO** empty groups, invisible elements, or `display="none"` leftovers
-* **NO** unused `<defs>` blocks or unreferenced definitions
-* **NO** editor metadata: `data-name`, `xml:space`, Illustrator/Inkscape comments, namespaced attributes
-
-## 10. VERSATILITY REQUIREMENTS
-
-### Mandatory Variants
-Every logo generation MUST include these variants:
-
-1. **Full Color** — The primary brand version
-2. **Monochrome (Dark)** — Single dark color on transparent background, using `fill="currentColor"`
-3. **Monochrome (Light)** — Single light color for use on dark backgrounds, using `fill="currentColor"` (explain this works by setting parent `color` to white)
-
-### Favicon Readiness
-* If the primary mark has more than **4 shapes**, provide a **simplified favicon variant** that reduces to ≤ 3 shapes while maintaining recognition.
-* Favicon variant MUST use `viewBox="0 0 32 32"` or `viewBox="0 0 16 16"`.
-
-### App Icon Readiness
-* **iOS:** Apple applies a superellipse (squircle) mask with continuous curvature. Submit a square — never pre-round corners. Safe zone: keep critical content within the **inner 80%** — corners are aggressively clipped. The corner radius is `10/57 × icon_size`.
-* **Android:** Adaptive icons use a 108×108dp canvas with a **66dp diameter safe zone circle** (61% of canvas). The outer 18dp per side is reserved for parallax motion effects. OEMs apply varying masks (circle, squircle, rounded square) — you cannot control the final shape. Design for the circle (worst case).
-* **Social media avatars:** All major platforms (Twitter/X, LinkedIn, Instagram, Discord, Facebook) crop profile images to circles. Keep all critical content within the **inner 70%** of a square — the four corners (21.5% of area) are always lost.
-* For Combination Mark archetypes: only the icon/mark portion is used as the app icon, never the wordmark.
-
-### Responsive Logo System
-When the logo may appear at widely varying sizes, design a **progressive simplification** system. The switching trigger is **wordmark legibility**, not device breakpoints — when text becomes illegible, drop it.
-
-| Tier | Size Range | What to Show |
-|---|---|---|
-| Full lockup + tagline | 240px+ wide | Icon + wordmark + tagline |
-| Horizontal lockup | 144-240px wide | Icon + wordmark (minimum legible lockup) |
-| Stacked lockup | 80-144px wide | Icon above wordmark (when width is constrained but height available) |
-| Icon only | 40-80px | Symbol/mark alone, no text |
-| Simplified icon / favicon | 16-40px | ≤ 3 bold shapes, thickened strokes, no fine detail |
-
-**Hard minimums:** Wordmark text must not appear below **16px cap height** (digital) / **0.15 inches** (print). Below 40px total lockup height, switch to a simplified/flat icon variant.
-
-73% of logo views happen at sizes under 64px — designing large-first is the most common mistake.
-
-### Independence
-* The SVG must render correctly with **zero external dependencies** — no fonts, no external images, no linked stylesheets.
-* Test criterion: dropping the SVG into a blank HTML page should produce the intended result with no missing elements.
-* **Security:** Never include `<script>`, `<foreignObject>`, event handlers (`onload`, `onclick`), or `<animate>` elements targeting `href` — these are active XSS attack vectors in SVG files.
-
-### Format Guidance
-* Provide usage notes: recommended minimum display size, recommended clear space, and which variant to use on light vs. dark backgrounds.
-* **Dark mode note:** For SVG favicons, embedded `@media (prefers-color-scheme: dark)` can auto-switch colors. However, Safari does not support this — recommend `.ico` fallback for Safari.
-
-## 11. EXECUTION PROTOCOL
+## 6. EXECUTION PROTOCOL
 
 Follow this sequence for every logo generation. Do NOT skip steps.
 
-1. **[BRIEF INTAKE]** Parse the user's request. Extract what's given, then fill gaps:
+**1. [BRIEF INTAKE]** Extract what's given, then fill gaps:
 
-   **Always provided:** Brand name (and any tagline).
+Ask only if missing (max 4 questions before generating):
+* *What does the company/product do?* — Never infer industry from name alone.
+* *Name 3 adjectives that describe how the brand should feel.* — Highest-leverage creative input. See `reference/COLOR-AND-INDUSTRY.md` for the Brand Personality → Visual Form mapping table.
+* *Who are 2-3 main competitors?* (optional) — Enables differentiation.
+* *Anything you want to avoid?* (optional)
 
-   **Ask only if missing (max 4 questions before generating):**
-   * *What does the company/product do?* — Industry drives archetype, color, and cliché avoidance. Never infer industry from name alone ("Mercury" could be fintech, automotive, or messaging).
-   * *Name 3 adjectives that describe how the brand should feel.* — The single highest-leverage creative input. Maps directly to shape, color, and typography via the Brand Personality → Visual Form table (Section 8A).
-   * *Who are 2-3 main competitors?* (optional) — Enables color/archetype differentiation. If not provided, infer competitive landscape from industry.
-   * *Anything you want to avoid?* (optional) — Negative constraints prevent wasted iterations.
+Always infer (never ask): archetype, color palette, typography style, shape language, precision/playfulness dials. Rich brief = skip straight to generation.
 
-   **Always infer (never ask):** Logo archetype (from name length + industry + adjectives), color palette (from adjectives + industry + competitive differentiation), typography style, shape language, geometric precision/playfulness dials, responsive variants needed. If the user provides a rich brief unprompted, skip straight to generation.
+**2. [ARCHETYPE SELECTION]** Choose one from Section 3. State choice + reasoning in one sentence.
 
-2. **[ARCHETYPE SELECTION]** Consciously choose one archetype from Section 3. State your choice and the reasoning in one sentence. Example: *"Archetype: Geometric Monogram — the short brand name and tech context favor a letter-based mark."*
+**3. [CONCEPT EXPLORATION]** Generate **2-3 conceptually distinct directions:**
+* Extract 3-5 brand attributes → map to geometric vocabulary
+* Choose rhetorical strategy: **metaphor** (Amazon's A-to-Z arrow), **abstraction** (Chase octagon), or **reduction** (Apple silhouette)
+* Evaluate: most distinctive? passes Swap Test? Audit competitive landscape — diverge in at least one dimension.
 
-3. **[CONCEPT EXPLORATION]** Before committing to one direction, generate **2-3 conceptually distinct directions** (not stylistic variations of one idea). Use this ideation pipeline:
-   * **Extract** 3-5 brand attributes from the brief (e.g., "precise," "warm," "innovative")
-   * **Map** attributes to geometric vocabulary: speed → diagonal lines, acute angles; trust → enclosed forms, low center of gravity; warmth → circles, rounded corners; innovation → upward triangles, asymmetric forms; premium → thin precise lines, generous whitespace; community → overlapping/interlocking shapes
-   * **Choose** a rhetorical strategy for each concept: **metaphor** (cross-domain analogy — Amazon's A-to-Z arrow), **abstraction** (pure geometric form — Chase octagon), or **reduction** (real object stripped to essence — Apple silhouette)
-   * Describe each concept in one sentence. Evaluate: Which is most distinctive? Which passes the Swap Test? Select the strongest and state why.
-   * **Competitive differentiation:** Before committing, mentally audit the competitive landscape — what colors, archetypes, and shape languages do competitors use? Consciously diverge in at least one dimension. If the space is full of blue wordmarks, an orange abstract mark differentiates instantly.
-   * **Anti-patterns to avoid:** being too literal (Rule 4), combining multiple ideas into one mark, settling on the first/most obvious idea, making the concept depend on color.
+**4. [CONCEPT COMMITMENT]** Lock in. Describe the visual idea + its ONE HOOK in 1-2 sentences.
 
-4. **[CONCEPT COMMITMENT]** Lock in your chosen concept. Describe it in 1-2 sentences. What is the visual idea? What makes it specific to THIS brand? What is its ONE HOOK? Example: *"The letter 'N' constructed from two overlapping parallelograms, creating a sense of forward momentum through negative space. The hook: the negative space between the parallelograms forms a forward-pointing arrow."*
+**5. [MONOCHROME DRAFT]** Write SVG in pure monochrome first.
 
-5. **[MONOCHROME DRAFT]** Write the SVG in pure monochrome first. Single fill color on transparent. This is your structural foundation.
+**6. [SHAPE AUDIT]** Count shapes. If > 7 or > STYLE_COMPLEXITY + 2, reduce. Apply Smallest Element Test.
 
-6. **[SHAPE AUDIT]** Count every distinct shape element. If count > 7, reduce. If count > STYLE_COMPLEXITY + 2, reduce. Apply the Smallest Element Test: mentally remove the thinnest/smallest element — if the logo survives, remove it. State the final count.
+**7. [COLOR APPLICATION]** Apply brand colors. See `reference/COLOR-AND-INDUSTRY.md` for color psychology and industry guidance. Check competitive differentiation.
 
-7. **[COLOR APPLICATION]** Apply brand colors to the monochrome draft. Respect the color budget (Section 7) and color theory (Section 8). If no colors were specified, choose a palette that fits the industry using the Color Psychology guide. Check competitive differentiation — does the color stand out from competitors, or blend in?
+**8. [SCALE VERIFICATION]** Mentally verify at 16px, 32px, 64px, 512px. Test on white, black, and mid-gray backgrounds. Squint test for distinctive mass distribution.
 
-8. **[SCALE & CONTEXT VERIFICATION]** Mentally verify at 16px, 32px, 64px, and 512px. Also test against: white background, black background, mid-gray background. Apply the squint test (blur mentally — does the mass distribution remain distinctive?). State any concerns. If 16px readability is poor, note that a simplified favicon variant is needed.
+**9. [CODE CLEANUP]** Verify: integer coordinates, paths close with Z, no redundant attributes, viewBox set, title/desc/ARIA present, file size within budget.
 
-9. **[CODE CLEANUP]** Final pass:
-   * Verify all coordinates are integers (decimals only where necessary, max 2 places)
-   * Verify all filled paths close with `Z`
-   * Remove redundant attributes (`fill-rule="nonzero"` if default)
-   * Flatten transforms into path coordinates
-   * Verify `viewBox` is set, no hardcoded dimensions
-   * Add `<title>`, `<desc>`, `role="img"`, `aria-labelledby`
-   * Check file size against budget
+**10. [VARIANT OUTPUT]** Provide:
+* Full color + monochrome dark (`currentColor`) + monochrome light
+* Favicon variant if mark > 4 shapes (≤ 3 shapes, viewBox 32×32 or 16×16)
+* Usage notes (minimum display size, variant guidance, clear space)
+* Design rationale (3-4 honest sentences: archetype choice, concept, color, one notable geometric relationship)
 
-10. **[VARIANT OUTPUT]** Output all three required variants (full color, monochrome dark, monochrome light) plus favicon/app icon variant if needed. Include:
-    * Brief usage notes (minimum display size, which variant for which background)
-    * Describe how the logo would appear on at least one real application (app icon, website header, or business card)
-    * **Design rationale** (3-4 sentences, honest and proportionate — no pseudo-scientific justification): Why this archetype, what the concept communicates, why this color, and one notable geometric relationship.
+See `reference/TYPOGRAPHY.md` for letterform construction, kerning, font archetypes, letter difficulty guide, and weight/case guidance.
 
-### 11A. REVISION & ITERATION PROTOCOL
+### 6A. REVISION & ITERATION PROTOCOL
 
-When the user requests changes, translate their verbal feedback into specific parameter shifts:
+When the user requests changes, translate verbal feedback into parameter shifts:
 
 | Feedback | Shapes | Colors | Typography | Composition |
 |---|---|---|---|---|
-| "Too corporate" | Rounder, organic curves | Warmer, more saturated | Lowercase, humanist sans | Looser grid, slight asymmetry |
-| "Too playful" | Geometric, angular | Cooler, desaturated, darker | Uppercase, geometric sans | Tight grid, enforce symmetry |
-| "Feels generic" | Strengthen the hook, flip a cliché | Unexpected choice vs. competitors | Distinctive pairing | Add negative space trick |
-| "Too busy" | Remove smallest element, reduce count | Fewer colors (1-2 max) | Simpler face | More whitespace |
-| "Not modern enough" | Clean geometry, flat | Restrained (1-2), contemporary | Sans-serif, lighter weight | Generous whitespace |
-| "Needs more energy" | Diagonals, pointed forms, asymmetry | Higher contrast, bolder | Bolder weight | Tilted axis, off-center |
+| "Too corporate" | Rounder, organic | Warmer, more saturated | Lowercase, humanist | Looser grid, asymmetry |
+| "Too playful" | Geometric, angular | Cooler, desaturated | Uppercase, geometric sans | Tight grid, symmetry |
+| "Feels generic" | Strengthen hook, flip cliché | Unexpected vs. competitors | Distinctive pairing | Negative space trick |
+| "Too busy" | Remove smallest element | Fewer colors (1-2) | Simpler face | More whitespace |
+| "Not modern" | Clean geometry, flat | Restrained, contemporary | Sans-serif, lighter | Generous whitespace |
+| "More energy" | Diagonals, asymmetry | Higher contrast | Bolder weight | Tilted axis, off-center |
 | "Make it pop" | Scale up focal element | Increase saturation + contrast | Bolder weight | Isolate with whitespace |
 
-**When to pivot vs. refine:** Refine when feedback targets surface parameters (color, weight, spacing) — the concept is right but the feel needs tuning. Pivot to a new concept when feedback targets the fundamental idea/metaphor, or after 2 refinement rounds without convergence.
+**Pivot vs. refine:** Refine when feedback targets surface parameters (color, weight, spacing). Pivot when feedback targets the fundamental idea, or after 2 rounds without convergence.
 
-**Constraint accumulation:** Each feedback round adds constraints, never removes previously approved ones. "I like the shape but not the color" = lock shape, unlock color. Present 1 refined version per round (not 3 divergent ones) unless the user explicitly asks for alternatives.
+**Constraint accumulation:** Each round adds constraints, never removes approved ones. "I like the shape but not the color" = lock shape, unlock color. Present 1 refined version per round unless alternatives are requested.
 
-## 12. PRE-FLIGHT CHECKLIST
-Evaluate your SVG against this matrix before outputting. Every box must be checked.
+## 7. PRE-FLIGHT CHECKLIST
 
 ### Process
-- [ ] Archetype was consciously selected and stated
-- [ ] 2-3 alternative concepts were explored before committing to one
-- [ ] Concept was described in one sentence before SVG was written
-- [ ] The ONE HOOK was identified and stated
-- [ ] Monochrome version was designed first, color applied second
-- [ ] Design rationale included (honest and proportionate — no pseudo-scientific justification)
+- [ ] Archetype consciously selected and stated
+- [ ] 2-3 concepts explored before committing
+- [ ] Concept described in one sentence; ONE HOOK identified
+- [ ] Monochrome designed first, color applied second
+- [ ] Design rationale included
 
 ### Structure & Code
-- [ ] `viewBox` is set; no hardcoded `width`/`height` in pixels
-- [ ] `preserveAspectRatio` is set or intentionally omitted
-- [ ] `xmlns` attribute present on root `<svg>`
-- [ ] `<title id="logo-title">` and `<desc id="logo-desc">` present with `role="img"` and `aria-labelledby` on root
-- [ ] Coordinates are integers wherever possible (decimals only when necessary, max 2 places)
+- [ ] `viewBox` set; no hardcoded dimensions; `xmlns` present
+- [ ] `<title>`, `<desc>`, `role="img"`, `aria-labelledby` present
+- [ ] Integer coordinates (decimals only when necessary, max 2 places)
 - [ ] All filled paths close with `Z`
-- [ ] SVG file size within budget (1.5KB / 3KB / 5KB depending on type)
-- [ ] No `<image>`, `<filter>`, `<text>`, `<style>`, `<script>`, or base64 content
-- [ ] No external dependencies (fonts, URLs, linked resources)
-- [ ] No unused `<defs>` blocks or unreferenced definitions
-- [ ] No editor metadata (`data-name`, `xml:space`, Illustrator/Inkscape artifacts)
-- [ ] `fill-rule` explicitly set on compound paths and negative-space marks
+- [ ] File size within budget
+- [ ] No banned SVG features (`<image>`, `<filter>`, `<text>`, `<style>`, `<script>`, base64)
+- [ ] No unused `<defs>` or editor metadata
+- [ ] `fill-rule` explicit on compound paths
 
 ### Design Quality
-- [ ] ≤ 7 shapes total
-- [ ] ≤ 3 colors total (including black/near-black)
-- [ ] No AI purple/blue gradient aesthetic anywhere in the palette
+- [ ] ≤ 7 shapes (mark portion); ≤ 3 colors
+- [ ] No AI purple-blue gradient aesthetic
 - [ ] Works on white, black, and mid-gray backgrounds
-- [ ] Recognizable as a unified form at 16×16 pixels
-- [ ] Passes the silhouette test (distinctive as solid black fill)
-- [ ] Passes the blur test (distinctive mass distribution when defocused)
-- [ ] Mark has exactly ONE distinctive hook (not zero, not three)
-- [ ] If the mark is symmetric, symmetry is broken in exactly one deliberate place
-- [ ] Passes the Swap Test (put a different company name under it — if it works for anyone, it's too generic)
-- [ ] No banned shapes, concepts, or visual treatments from Section 9
-- [ ] No literal depictions of what the company does
-- [ ] The logo looks like a human designed it, not like AI assembled stock icons
+- [ ] Recognizable at 16×16; passes silhouette test and blur test
+- [ ] ONE distinctive hook; Swap Test passes
+- [ ] Symmetry broken in exactly one deliberate place (if symmetric)
+- [ ] No banned shapes, concepts, or treatments from Section 5
+- [ ] Looks human-designed, not AI-assembled
 
 ### Deliverables
-- [ ] All three mandatory variants provided (full color, mono dark, mono light)
-- [ ] Favicon variant provided if primary mark has > 4 shapes
-- [ ] App icon readiness verified if mark may be used in mobile context
-- [ ] Brief usage notes included (minimum display size, variant guidance)
+- [ ] Three variants: full color + mono dark + mono light
+- [ ] Favicon variant if mark > 4 shapes
+- [ ] Usage notes included
 
-### Self-Evaluation (Score 1-10 After Generation)
-After generating the logo, score it honestly on these 5 criteria. Any score below 5 requires targeted revision. Average below 6.5 means reconsider the concept. (Research confirms: structured self-evaluation with explicit criteria improves LLM output by ~20% — Madaan et al., Self-Refine.)
+### Self-Evaluation (Score 1-10)
+Any score < 5 requires revision. Average < 6.5 means reconsider the concept.
 
-1. **Simplicity** — Can anything be removed without losing the concept? (10 = irreducible, like Nike swoosh)
-2. **Scalability** — Does it work at 16×16? Are there thin strokes or details that vanish? (10 = equally powerful at any size)
-3. **Distinctiveness** — Would this stand out in a grid of 20 competitor logos? (10 = truly novel, immediately ownable)
-4. **Memorability** — What's the single feature someone would remember after 3 seconds? If none, score ≤ 4. (10 = instantly iconic, drawable from memory)
-5. **Craft** — Are paths clean, geometry consistent, spacing balanced? (10 = professional-grade, could ship to a Fortune 500 client)
-
-## 13. INDUSTRY-SPECIFIC MARK PATTERNS
-
-When the user specifies an industry, use these mappings to guide archetype selection, conceptual approach, and industry-specific cliché avoidance. These supplement (not replace) the Color Psychology guide in Section 8.
-
-### Tech / SaaS
-* **Preferred archetypes:** Abstract Mark, Geometric Monogram, Wordmark
-* **Conceptual approach:** Express precision through geometric rigor. Favor clean intersections, modular forms, grid-derived shapes.
-* **Avoid:** Circuit boards, code brackets `</>`, binary, generic "cloud" shapes, pixel grids
-* **Color note:** Blue dominates — differentiate with unexpected colors (Stripe: purple, Slack: multicolor, Notion: black)
-
-### Fintech / Finance
-* **Preferred archetypes:** Geometric Monogram, Abstract Mark
-* **Conceptual approach:** Convey stability and trust through enclosed forms, low center of gravity, mathematical precision. Avoid depicting money.
-* **Avoid:** Dollar/currency signs, coins, piggy banks, upward arrow charts, generic shields
-* **Color note:** Blue is overcrowded. Consider green (growth), black (premium), or an unexpected differentiator.
-
-### Healthcare / Medical
-* **Preferred archetypes:** Abstract Mark (humanist curves), Wordmark (Humanist Sans)
-* **Conceptual approach:** Warmth and trust through rounded forms, open counters, generous spacing. Express care, not clinical sterility.
-* **Avoid:** Plus/cross signs, caduceus, hearts, stethoscopes, DNA helices
-* **Color note:** Blue and green dominate. Teal or warm neutrals differentiate.
-
-### Food & Beverage
-* **Preferred archetypes:** Wordmark, Pictorial Reduction, Emblem
-* **Conceptual approach:** Warmth, appetite, authenticity. Rounded forms. Custom lettering with personality.
-* **Avoid:** Generic chef hats, forks/spoons, generic wheat stalks
-* **Color note:** Red/orange stimulate appetite. Warm colors outperform cool.
-
-### Fashion / Luxury
-* **Preferred archetypes:** Wordmark (High-Contrast Serif or Geometric Sans), Geometric Monogram
-* **Conceptual approach:** Restraint IS luxury. Generous whitespace, precise letterforms, minimal elements. Let typography do all the work.
-* **Avoid:** Crowns, diamonds, generic "premium" flourishes, excessive ornamentation
-* **Color note:** Black is the default and often correct. Gold accents sparingly.
-
-### Developer Tools
-* **Preferred archetypes:** Geometric Monogram, Abstract Mark, Wordmark (Monospace)
-* **Conceptual approach:** Technical precision with personality. Animal mascots are uniquely effective here (Go gopher, Rust crab, Docker whale, Linux penguin). Consider bold, geometric characters.
-* **Avoid:** Code brackets `</>`, terminal cursors, generic gear icons
-* **Color note:** Bold single colors work well. Avoid the purple-blue AI gradient.
-
-### Sustainability / Environmental
-* **Preferred archetypes:** Abstract Mark, Wordmark
-* **Conceptual approach:** Express environmental values through form and color, not literal nature depictions. Geometric forms suggesting cycles, renewal, or interconnection.
-* **Avoid:** Generic leaves, trees, recycling arrows, water drops, globes with green continents
-* **Color note:** Green is expected — consider earth tones or unexpected colors that still convey the brand values.
-
-## 14. EXPORT & HANDOFF GUIDANCE
-
-When the user asks about using the generated logo in production contexts, provide relevant guidance from these categories:
-
-### Web: Framework Components
-* **React (SVGR):** Replace `fill="#000"` with `fill="currentColor"`, add `{...props}` on root `<svg>`, use `width="1em" height="1em"` for icon-like scaling. SVGR config: `{ icon: true, replaceAttrValues: { "#000": "currentColor" }, expandProps: "end" }`.
-* **Vue:** Use `vite-svg-loader` with `?component` suffix. Same `currentColor` replacement applies.
-* **Both:** Always preserve `viewBox`. Add `aria-hidden="true"` for decorative logos; `role="img"` + `aria-label` for meaningful ones.
-
-### Web: CSS Embedding
-* **`<img src="logo.svg">`** — Best for simple logo placement. Cached as a file. No CSS control over fills.
-* **Inline SVG** — Use when the logo needs dynamic color theming via `currentColor` or CSS custom properties.
-* **SVG sprite `<symbol>`/`<use>`** — Use when the logo appears alongside an icon system. One cached file, multiple references.
-* **CSS `background-image` data URI** — For decorative repeated logos. URL-encode the SVG (do NOT base64 — it adds 25-30% size). Only `#` needs encoding as `%23`.
-
-### Favicon & Raster Generation
-The modern favicon stack requires only **3 files**:
-```html
-<link rel="icon" href="/favicon.ico" sizes="32x32">
-<link rel="icon" href="/icon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png"> <!-- 180×180 -->
-```
-Plus a PWA manifest referencing 192×192 and 512×512 PNGs. Generate rasters via `sharp` (Node.js) or `rsvg-convert` (CLI). Generate `.ico` via ImageMagick: `convert icon-16.png icon-32.png icon-48.png favicon.ico`.
-
-### Design Tool Import (Figma)
-For clean import: name `<g>` groups with meaningful `id` attributes (become layer names), outline all strokes to paths, flatten boolean operations, snap to pixel grid, and remove editor metadata. After import, ungroup the SVG frame to access individual elements.
-
-### Print Production
-SVG is RGB-only; print requires CMYK conversion. Pipeline: SVG → Adobe Illustrator (or Inkscape + Scribus) → CMYK EPS/PDF. Always convert text to outlines. Minimum reproduction size: typically 0.5-1.5 inches wide depending on complexity. Include a color specification sheet with Pantone, CMYK, RGB, and HEX values.
-
-### SVG Optimization (SVGO)
-Use SVGO with these plugins **disabled** to protect logo integrity: `removeViewBox`, `cleanupIds` (breaks gradient/clip-path refs), `convertPathData` (can alter precise geometry), `removeTitle`, `removeDesc`. The safe default config typically removes 30-60% file size from editor-exported SVGs without visual impact.
-
-## 15. SVG CODE PATTERNS LIBRARY
-
-Reference patterns for common logo construction tasks. All use `viewBox="0 0 64 64"` with integer coordinates.
-
-### 15A. Rotational Symmetry (3-fold / 4-fold)
-Define one element in `<defs>`, replicate with `<use>` at equal angle intervals. **Always** use the 3-argument `rotate(angle, cx, cy)` — bare `rotate(angle)` rotates around (0,0), sending elements off-canvas.
-```svg
-<defs><path id="petal" d="M32 32 L32 8 Q40 16 32 32Z" fill="#222"/></defs>
-<use href="#petal" transform="rotate(0,32,32)"/>
-<use href="#petal" transform="rotate(120,32,32)"/>
-<use href="#petal" transform="rotate(240,32,32)"/>
-```
-For 4-fold: use 0°, 90°, 180°, 270°. Angles must be exactly `k × (360/N)`. Build gaps into the shape geometry, not as spacing between elements.
-
-### 15B. Boolean Subtraction (Compound Path + evenodd)
-Two subpaths in one `<path>` with `fill-rule="evenodd"`. The inner subpath cuts a hole. **Critical:** A full SVG circle requires TWO semicircular arcs (one arc cannot draw 360°).
-```svg
-<path fill-rule="evenodd" fill="#222" d="
-  M32 4  A28 28 0 1 1 32 60 A28 28 0 1 1 32 4 Z
-  M32 18 A14 14 0 1 0 32 46 A14 14 0 1 0 32 18 Z"/>
-```
-Each subpath must close with `Z` before the next `M`.
-
-### 15C. Overlapping Circles with Explicit Intersection (Mastercard Style)
-Two circles + a lens-shaped third path. For equal-radius circles at (cx1,cy) and (cx2,cy): intersection x = midpoint, y_offset = √(r² − (d/2)²). The lens uses two arcs with `large-arc-flag="0"`.
-```svg
-<circle cx="22" cy="32" r="20" fill="#eb001b"/>
-<circle cx="42" cy="32" r="20" fill="#f79e1b"/>
-<path d="M32 15 A20 20 0 0 1 32 49 A20 20 0 0 1 32 15Z" fill="#ff5f00"/>
-```
-**Common AI error:** Wrong arc flags or sweep direction — produces a crescent instead of a lens.
-
-### 15D. Monogram Cut from Circle
-Letter knocked out of a filled circle via `fill-rule="evenodd"`. Use only straight-line commands for the letter (no curves). Letter must stay strictly inside the circle.
-```svg
-<path fill-rule="evenodd" fill="#222" d="
-  M32 2 A30 30 0 1 1 32 62 A30 30 0 1 1 32 2 Z
-  M20 18 L44 18 L44 26 L36 26 L36 48 L28 48 L28 26 L20 26 Z"/>
-```
-
-### 15E. Reflective Symmetry
-Draw one half, mirror with `translate(2×axis, 0) scale(-1, 1)`. For a `64×64` viewBox mirrored at x=32: `transform="translate(64,0) scale(-1,1)"`. The translate **must** come first in the attribute string (transforms apply right-to-left).
-
-### 15F. Negative Space Mark
-Arrange positive shapes so the gap forms the recognizable shape. **Do not draw the implied shape** — that defeats the purpose. Vertices along shared edges must match exactly. Minimum gap width: 10-12 units at 64×64 for small-size readability.
-
-### Universal AI-Safe SVG Practices
-* Use integer coordinates exclusively within the viewBox
-* Always specify `fill-rule="evenodd"` on compound paths
-* Draw full circles as two semicircular arcs, never one
-* Arc flag mnemonic: quarter/half circle = `large-arc-flag="0"`, more than half = `"1"`
-* Keep individual paths short to minimize coordinate drift
-* Specify layering order explicitly (SVG renders in document order)
+1. **Simplicity** — Can anything be removed? (10 = irreducible)
+2. **Scalability** — Works at 16×16? No vanishing details? (10 = powerful at any size)
+3. **Distinctiveness** — Stands out among 20 competitor logos? (10 = immediately ownable)
+4. **Memorability** — What single feature is remembered after 3 seconds? (10 = drawable from memory)
+5. **Craft** — Paths clean, geometry consistent, spacing balanced? (10 = Fortune 500 ready)
