@@ -118,7 +118,7 @@ Always infer (never ask): archetype, color palette, typography style, shape lang
 
 **8. [SCALE VERIFICATION]** Mentally verify at 16px, 32px, 64px, 512px. Test on white, black, and mid-gray backgrounds. Squint test for distinctive mass distribution.
 
-**9. [CODE CLEANUP]** Verify: integer coordinates, paths close with Z, no redundant attributes, viewBox set, title/desc/ARIA present, file size within budget.
+**9. [CODE CLEANUP]** Verify: integer coordinates, paths close with Z, no redundant attributes, viewBox set, title/desc/ARIA present, file size within budget. Run `scripts/validate-svg.sh` on the output to catch banned elements, missing accessibility, coordinate precision, and size budget violations.
 
 **10. [VARIANT OUTPUT]** Provide:
 * Full color + monochrome dark (`currentColor`) + monochrome light
