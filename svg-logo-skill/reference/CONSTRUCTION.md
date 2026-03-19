@@ -89,19 +89,35 @@ Beyond color (covered in COLOR-AND-INDUSTRY.md), shapes and symbols carry differ
 * **Cat:** Generally positive globally, but black cats are unlucky in some Western traditions.
 
 ### Numbers
-* **4:** Unlucky in China, Japan, Korea (sounds like "death" in Chinese/Japanese). Avoid 4-element designs for East Asian markets.
+* **4:** Unlucky in China, Japan, Korea, Vietnam (sounds like "death"). Avoid 4-element designs for East Asian markets. Buildings skip floor 4.
 * **13:** Unlucky in Western cultures. Less relevant for logo shapes but matters for naming/taglines.
+* **17:** Unlucky in Italy (XVII rearranges to VIXI, "my life is over" in Latin). Ironically, 13 is lucky in Italy.
+* **39:** Offensive in Afghanistan (slang association). Avoid in branding for that market.
+* **666:** Satanic in Christian cultures but lucky in China ("everything goes smoothly"). A bidirectional trap.
 * **8:** Extremely lucky in China (sounds like "prosperity"). Positive associations.
-* **7:** Lucky in most Western and Islamic cultures.
 
 ### Religious Symbols (Never Use Casually)
-Cross, crescent, Star of David, Om (ॐ), lotus (sacred in Buddhism/Hinduism), hamsa/Hand of Fatima, yin-yang, torii gate, dharma wheel. Using these in commercial logos without genuine religious context is culturally appropriative and potentially offensive.
+Cross, crescent and star, Star of David, Om (ॐ), swastika/manji (sacred to 1.5B+ Hindus/Buddhists/Jains but irrevocably Nazi-associated in the West), lotus, khanda (Sikh), dharma wheel, torii gate, hamsa/Hand of Fatima. Using these in commercial logos without genuine religious context is culturally appropriative and potentially offensive.
+
+### RTL (Right-to-Left) Considerations
+For Arabic, Hebrew, Farsi, and Urdu markets (600M+ people):
+* **Do NOT mirror logos or Latin-script brand names.** Brand marks stay in their original orientation.
+* **Arabic/Hebrew wordmarks** require script-specific fonts with proper ligatures. No bold (ruins readability) or italics (not used in Arabic script).
+* **Arabic text is 20-25% longer** than English — account for text expansion in lockups.
+* **Logo placement** shifts from top-left to top-right in mirrored layouts.
 
 ### Color Additions (Supplement to COLOR-AND-INDUSTRY.md)
 * **White:** Mourning in China, Japan, Korea, India. Purity in Western cultures.
-* **Yellow:** Imperial/sacred in China; mourning in parts of Latin America; caution in West.
+* **Yellow:** Imperial/sacred in China; mourning in parts of Latin America and Egypt; caution in West.
 * **Red:** Luck/prosperity in China; danger/warning in West; mourning in South Africa.
-* **Purple:** Mourning in Thailand and parts of Latin America; royalty in West.
+* **Purple:** Mourning in Thailand and Brazil; royalty in West.
 * **Green:** Sacred in Islam (color of the Prophet); nature/eco in West.
+* **Orange:** Mourning and loss in parts of the Middle East.
 
-**Rule of thumb:** When designing for a specific cultural market, research that market. When designing for global use, stick to abstract geometric forms and avoid all figurative symbols, religious imagery, and culturally loaded animals.
+### Notable Brand Failures (Cautionary Examples)
+* Dolce & Gabbana "DG Loves China" (2018): Mocked Chinese culture → massive boycott, revenue dropped.
+* Nike Samoan Tattoo Leggings (2013): Used sacred pe'a pattern reserved for men → product pulled.
+* Amazon India: Sold flip-flops depicting Gandhi, doormats with Indian flag → criminal charges (flag desecration is illegal in India).
+* Ford Pinto in Brazil: "Pinto" is slang for male genitals in Portuguese → brand failure.
+
+**Rule of thumb:** When designing for a specific cultural market, research that market and consult native speakers. When designing for global use, stick to abstract geometric forms and avoid all figurative symbols, religious imagery, culturally loaded animals, and gesture-derived shapes. No amount of desk research replaces local cultural review.
