@@ -47,3 +47,40 @@ Design letterforms with a clear typographic voice:
 * **Q:** Copy of O + diagonal tail from ~4-5 o'clock, extending below baseline by 20-35% of cap height.
 
 **Winding direction for counters:** Letters with holes (A, B, D, O, P, Q, R) need outer contour clockwise and inner counter-clockwise under `nonzero` fill rule. Use `fill-rule="evenodd"` as a safer alternative — it doesn't depend on winding direction.
+
+## Hard Letter SVG Examples (viewBox="0 0 64 64")
+
+Cap height = 48 units (y:8 to y:56). Stroke width = 7 units. All integer coordinates.
+
+### Letter S
+Two opposing arcs. Lower bowl slightly larger than upper. Built from two cubic Bezier curves with smooth continuation.
+```svg
+<path d="M38 12 C28 12 18 16 18 24 C18 32 28 34 32 36 C36 38 46 40 46 48 C46 56 36 60 26 60"
+      fill="none" stroke="#222" stroke-width="7" stroke-linecap="round"/>
+```
+**Key:** Lower bowl (y:36-60) spans 24 units; upper bowl (y:12-36) spans 24 units. The inflection at y:36 sits slightly right of center. Never use two identical semicircles.
+
+### Letter R
+Vertical stem + half-circle bowl + diagonal leg. Bowl occupies upper ~53% of cap height.
+```svg
+<path d="M18 56 L18 8 L32 8 A12 12 0 0 1 32 34 L18 34 M32 34 L44 56"
+      fill="none" stroke="#222" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+```
+**Key:** Bowl arc from (32,8) sweeps to (32,34) — a semicircle of radius 12. Leg starts at the bowl's bottom-right and extends diagonally to baseline.
+
+### Letter B
+Vertical stem + two half-circle bowls. Lower bowl is wider than upper.
+```svg
+<path fill-rule="evenodd" fill="#222" d="
+  M14 8 L32 8 A11 11 0 0 1 32 30 L14 30 L14 8 Z
+  M14 30 L34 30 A13 13 0 0 1 34 56 L14 56 L14 30 Z"/>
+```
+**Key:** Upper bowl radius = 11 (right edge at x:43). Lower bowl radius = 13 (right edge at x:47). Lower bowl is ~4 units wider. Waist at y:30 (~46% from top — slightly above geometric center).
+
+### Letter G
+C-shape + horizontal crossbar at ~45% from baseline.
+```svg
+<path d="M44 18 A22 22 0 1 0 44 46 L44 34 L32 34"
+      fill="none" stroke="#222" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+```
+**Key:** The arc draws most of a circle (large-arc-flag=1). Crossbar at y:34 (~45% from baseline at y:56). Crossbar extends from the arc endpoint inward to roughly the counter's center.

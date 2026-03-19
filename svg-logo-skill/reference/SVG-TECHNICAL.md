@@ -88,6 +88,30 @@ Compose from primitives. Reserve `<path>` for organic curves only. Keep individu
 
 **Hard minimums:** Wordmark not below 16px cap height. Below 40px total lockup height, use simplified icon.
 
+### Dark Mode Adaptive SVG
+For SVG favicons, you can embed a `<style>` block with `prefers-color-scheme` to auto-switch colors:
+```svg
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    .logo-fill { fill: #1a1a2e; }
+    @media (prefers-color-scheme: dark) {
+      .logo-fill { fill: #ffffff; }
+    }
+  </style>
+  <path class="logo-fill" d="..."/>
+</svg>
+```
+
+**Browser support:**
+- **Chrome, Firefox, Edge:** Supported when SVG is loaded via `<link rel="icon">` as a favicon
+- **Safari:** Does NOT support `prefers-color-scheme` inside SVG loaded via `<link>` or `<img>`. Provide an `.ico` fallback for Safari.
+- **Inline SVG:** Works in all browsers (the `<style>` block responds to the page's color scheme)
+- **`<img>` tag:** Does NOT work in most browsers — the SVG's `<style>` is sandboxed
+
+**Recommendation:** Use this technique ONLY for SVG favicons. For all other contexts, provide separate light/dark SVG files (mono-dark, mono-light variants) rather than relying on embedded media queries. The `<style>` block is a Tier 3 feature — use with caution.
+
+**Note:** This is an exception to the general "no `<style>` blocks" rule in the core SKILL.md. The favicon is the ONE context where embedded `<style>` is justified because favicons can't be swapped via external CSS.
+
 ### Independence
 * Zero external dependencies. Dropping SVG into blank HTML must work.
 * **Security:** No `<script>`, `<foreignObject>`, event handlers, or `<animate>` targeting `href`.

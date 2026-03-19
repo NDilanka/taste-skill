@@ -86,3 +86,27 @@ When a brand has product lines or sub-brands:
 - Sub-brands use a **differentiated color** from the same palette family
 - Sub-brand wordmarks use the **same typographic voice** (same font archetype, may vary weight)
 - The primary mark should be recognizable even when the sub-brand mark appears alone
+
+## Monogram Reduction Rules
+
+When a complex mark (>4 shapes) needs a favicon or icon-only variant, follow this systematic reduction:
+
+**Step 1: Identify what survives.** The ONE HOOK always survives. If the hook is a negative space trick, the shapes that create it survive. If the hook is a distinctive proportion, the shape with that proportion survives.
+
+**Step 2: Choose reduction strategy based on archetype:**
+- **Geometric Monogram → Keep the letterform.** Remove the container or background shape. The letter IS the favicon.
+- **Abstract Mark → Keep the primary shape.** Remove secondary/supporting shapes. If the mark is 3 overlapping circles, keep 2 (or simplify to a single distinctive form).
+- **Combination Mark → Keep the icon only.** Drop the wordmark entirely. The icon was designed to standalone.
+- **Pictorial Reduction → Simplify the silhouette.** Remove internal detail. Keep only the outline + the one defining characteristic (Apple: silhouette + bite).
+- **Emblem → Extract the interior.** The container (circle, badge) often shrinks poorly. Pull out the central monogram or icon and use it alone.
+- **Wordmark → Extract one letter.** Use the most distinctive letterform as a monogram. If the wordmark's hook is in a specific letter (Google's tilted "e"), that letter becomes the favicon.
+
+**Step 3: Thicken for small sizes.**
+- Increase stroke weights by 30-50% compared to the full mark
+- Minimum stroke: 3px at 32×32 viewBox (≈10% of viewBox)
+- Fill counters that would collapse (if a counter is <15% of mark area at 16px, fill it)
+
+**Step 4: Test at actual size.**
+- Render at 16×16 and 32×32 pixels
+- The form must be recognizable — not just "a blob of color"
+- If it fails, remove one more shape and repeat

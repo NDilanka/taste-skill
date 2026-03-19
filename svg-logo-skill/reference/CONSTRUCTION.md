@@ -47,3 +47,61 @@
 * **φ-Scaling:** Relate multiple shapes through 1:1.618. If primary circle has radius R, secondary should be R × 0.618.
 * **Fibonacci Spacing:** Gaps between elements use Fibonacci units relative to grid (2, 3, 5, 8 units).
 * **Proportions as Verification:** Use φ-ratios to verify and refine, not as rigid constraints. The math validates what the eye already found pleasing.
+
+## Physical Production Constraints
+
+The most **production-resilient** logo uses minimum 1.5mm strokes, ≤4 flat colors, no gradients, no floating interior shapes, and text ≥7mm cap height. Provide production-specific variants when needed.
+
+| Method | Min Stroke | Max Colors | Gradients? | Key Constraint |
+|---|---|---|---|---|
+| **Embroidery** | 1.5 mm | 5-7 thread | No | No fine detail; sans-serif only; min 7mm text |
+| **Screen Print** | 0.5-1.0 mm | 1-6 spot | Halftone only | Each color = separate screen; trap overlapping colors by 0.25-0.5mm |
+| **Deboss/Emboss** | 0.5-1.0 mm | 1 (impression) | No | Counters must be ≥0.75mm wide; bold silhouettes work best |
+| **Laser Cut** | 0.2 mm (engrave) / 1.0 mm (cut) | 2-3 tones | Dithered only | **Islands fall out** — add bridges for enclosed shapes (letter O, D, etc.) |
+| **Foil Stamp** | 0.3-0.5 mm | 1-2 foil | No | Medium-weight serif minimum; hairline serifs break up |
+| **Large Format** | 1 mm (close) / 15+ mm (distance) | Unlimited (CMYK) | Yes | Viewing distance rule: 25mm stroke per 10m distance; reds/yellows fade fastest |
+
+**SVG preparation for production:**
+- Convert all strokes to filled paths with enforced minimum widths
+- Flatten transparency and remove all effects
+- Close all paths (no open strokes)
+- For laser cutting: provide a stencil variant with bridges connecting interior shapes to surrounding material
+- For embroidery: provide a simplified variant with ≤4 colors and no detail below 1.5mm
+- For print: deliver CMYK color specs alongside hex values
+
+## Cultural Sensitivity in Logo Design
+
+Beyond color (covered in COLOR-AND-INDUSTRY.md), shapes and symbols carry different meanings across cultures. When designing for global brands, avoid these unless contextually appropriate:
+
+### Shapes & Gestures
+* **Swastika / manji (卍):** Sacred in Hinduism, Buddhism, and Jainism (clockwise and counterclockwise). Strictly banned in Western contexts due to Nazi associations. Avoid any rotated cross that could be misread.
+* **Inverted cross:** Satanic associations in Western culture; St. Peter's cross in Catholic tradition. Avoid in ambiguous contexts.
+* **Pointing hand / fingers:** The "OK" sign (thumb-index circle) is offensive in Brazil and parts of Middle East. Thumbs-up is offensive in parts of the Middle East. The left hand is considered unclean in many Islamic and South Asian cultures.
+* **Eye imagery:** The "evil eye" (nazar) is protective in Turkey/Greece but potentially unsettling in other contexts. The "Eye of Horus" carries Egyptian religious weight.
+
+### Animals
+* **Pig:** Offensive in Islamic cultures and some Jewish contexts. Avoid for any brand targeting the Middle East or Muslim-majority markets.
+* **Dog:** Beloved in the West; considered unclean in some Islamic traditions. Context-dependent.
+* **Owl:** Wisdom in the West; bad omen or associated with death in Middle East, India, and parts of East Asia.
+* **Dragon:** Positive (power, fortune) in East Asia; negative (evil, destruction) in Western tradition.
+* **Cow:** Sacred in Hinduism — never depict casually for Indian market. Avoid beef/leather associations.
+* **Monkey:** Can carry racial connotations depending on context. Handle with extreme care.
+* **Cat:** Generally positive globally, but black cats are unlucky in some Western traditions.
+
+### Numbers
+* **4:** Unlucky in China, Japan, Korea (sounds like "death" in Chinese/Japanese). Avoid 4-element designs for East Asian markets.
+* **13:** Unlucky in Western cultures. Less relevant for logo shapes but matters for naming/taglines.
+* **8:** Extremely lucky in China (sounds like "prosperity"). Positive associations.
+* **7:** Lucky in most Western and Islamic cultures.
+
+### Religious Symbols (Never Use Casually)
+Cross, crescent, Star of David, Om (ॐ), lotus (sacred in Buddhism/Hinduism), hamsa/Hand of Fatima, yin-yang, torii gate, dharma wheel. Using these in commercial logos without genuine religious context is culturally appropriative and potentially offensive.
+
+### Color Additions (Supplement to COLOR-AND-INDUSTRY.md)
+* **White:** Mourning in China, Japan, Korea, India. Purity in Western cultures.
+* **Yellow:** Imperial/sacred in China; mourning in parts of Latin America; caution in West.
+* **Red:** Luck/prosperity in China; danger/warning in West; mourning in South Africa.
+* **Purple:** Mourning in Thailand and parts of Latin America; royalty in West.
+* **Green:** Sacred in Islam (color of the Prophet); nature/eco in West.
+
+**Rule of thumb:** When designing for a specific cultural market, research that market. When designing for global use, stick to abstract geometric forms and avoid all figurative symbols, religious imagery, and culturally loaded animals.
