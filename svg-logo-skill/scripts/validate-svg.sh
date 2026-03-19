@@ -3,7 +3,7 @@
 # Checks generated SVG against the skill's technical requirements.
 # Usage: ./validate-svg.sh <path-to-svg>
 
-set -euo pipefail
+set -uo pipefail
 
 if [[ $# -lt 1 ]]; then
   echo "Usage: $0 <svg-file>"
@@ -20,9 +20,9 @@ PASS=0
 FAIL=0
 WARN=0
 
-pass() { echo "  ✓ PASS: $1"; ((PASS++)); }
-fail() { echo "  ✗ FAIL: $1"; ((FAIL++)); }
-warn() { echo "  ⚠ WARN: $1"; ((WARN++)); }
+pass() { echo "  ✓ PASS: $1"; PASS=$((PASS+1)); }
+fail() { echo "  ✗ FAIL: $1"; FAIL=$((FAIL+1)); }
+warn() { echo "  ⚠ WARN: $1"; WARN=$((WARN+1)); }
 
 echo "=== SVG Logo Validation: $SVG_FILE ==="
 echo ""
@@ -100,7 +100,8 @@ echo ""
 # --- Coordinate Precision ---
 echo "Coordinate Precision:"
 # Find coordinates with more than 2 decimal places in path data
-EXCESS_DECIMALS=$(grep -oE '[0-9]+\.[0-9]{3,}' "$SVG_FILE" | wc -l)
+EXCESS_DECIMALS=$(grep -oE '[0-9]+\.[0-9]{3,}' "$SVG_FILE" 2>/dev/null | wc -l | tr -d ' ' || true)
+EXCESS_DECIMALS=${EXCESS_DECIMALS:-0}
 if [[ $EXCESS_DECIMALS -gt 0 ]]; then
   fail "Found $EXCESS_DECIMALS coordinates with >2 decimal places"
 else
@@ -113,8 +114,10 @@ echo ""
 echo "Path Closure:"
 # Extract all d="..." attributes and check each subpath ends with Z/z
 # This is a heuristic: count M/m commands vs Z/z commands in path data
-M_COUNT=$(grep -oE '[Mm]' "$SVG_FILE" | wc -l)
-Z_COUNT=$(grep -oE '[Zz]' "$SVG_FILE" | wc -l)
+M_COUNT=$(grep -oE '[Mm]' "$SVG_FILE" 2>/dev/null | wc -l | tr -d ' ' || true)
+M_COUNT=${M_COUNT:-0}
+Z_COUNT=$(grep -oE '[Zz]' "$SVG_FILE" 2>/dev/null | wc -l | tr -d ' ' || true)
+Z_COUNT=${Z_COUNT:-0}
 if [[ $M_COUNT -gt 0 && $Z_COUNT -lt $M_COUNT ]]; then
   warn "Found $M_COUNT path subpaths but only $Z_COUNT closures (Z) — some paths may be unclosed"
 else
@@ -141,12 +144,15 @@ echo ""
 # --- Shape Count ---
 echo "Shape Count:"
 # Count visible shape elements (rect, circle, ellipse, polygon, polyline, line, path)
-SHAPE_COUNT=$(grep -coE '<(rect|circle|ellipse|polygon|polyline|line|path)[\s/>]' "$SVG_FILE" || echo 0)
+SHAPE_COUNT=$(grep -cE '<(rect|circle|ellipse|polygon|polyline|line|path)[ />]' "$SVG_FILE" || true)
+SHAPE_COUNT=${SHAPE_COUNT:-0}
 # Subtract shapes inside <defs> (they're templates, not visible)
-DEFS_SHAPES=$(sed -n '/<defs>/,/<\/defs>/p' "$SVG_FILE" | grep -coE '<(rect|circle|ellipse|polygon|polyline|line|path)[\s/>]' || echo 0)
+DEFS_SHAPES=$(sed -n '/<defs>/,/<\/defs>/p' "$SVG_FILE" | grep -cE '<(rect|circle|ellipse|polygon|polyline|line|path)[ />]' || true)
+DEFS_SHAPES=${DEFS_SHAPES:-0}
 VISIBLE_SHAPES=$((SHAPE_COUNT - DEFS_SHAPES))
 # Add <use> elements (they instantiate shapes)
-USE_COUNT=$(grep -coE '<use[\s/>]' "$SVG_FILE" || echo 0)
+USE_COUNT=$(grep -cE '<use[ />]' "$SVG_FILE" || true)
+USE_COUNT=${USE_COUNT:-0}
 TOTAL=$((VISIBLE_SHAPES + USE_COUNT))
 
 if [[ $TOTAL -gt 7 ]]; then
@@ -168,7 +174,7 @@ if grep -q "<defs>" "$SVG_FILE"; then
     REF_COUNT=$(grep -c "$id" "$SVG_FILE" || echo 0)
     if [[ $REF_COUNT -le 1 ]]; then
       warn "Potentially unused def: id=\"$id\""
-      ((UNUSED++))
+      UNUSED=$((UNUSED+1))
     fi
   done
   if [[ $UNUSED -eq 0 ]]; then
@@ -186,7 +192,7 @@ METADATA_FOUND=0
 for pattern in "data-name" "xml:space" "inkscape:" "sodipodi:" "illustrator" "sketch:"; do
   if grep -qi "$pattern" "$SVG_FILE"; then
     fail "Contains editor metadata: $pattern"
-    ((METADATA_FOUND++))
+    METADATA_FOUND=$((METADATA_FOUND+1))
   fi
 done
 if [[ $METADATA_FOUND -eq 0 ]]; then

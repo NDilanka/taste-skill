@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="logo-title logo-desc">
+  <title id="logo-title">Finch Logo</title>
+  <desc id="logo-desc">Minimal bird mark: a rounded body with an angular wing and small circular head, facing right</desc>
+  <g id="mark-icon">
+    <!-- Body: rounded form -->
+    <ellipse cx="30" cy="36" rx="18" ry="16" fill="#1a8a7a"/>
+    <!-- Wing: angular shape overlapping body -->
+    <polygon fill="#136b5e" points="20,28 8,20 26,36"/>
+    <!-- Head: small circle -->
+    <circle cx="44" cy="24" r="7" fill="#1a8a7a"/>
+    <!-- Eye -->
+    <circle cx="46" cy="23" r="2" fill="#ffffff"/>
+    <!-- Beak -->
+    <polygon fill="#e8863a" points="51,24 58,22 51,26"/>
+  </g>
+</svg>

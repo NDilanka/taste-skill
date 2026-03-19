@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="logo-title logo-desc">
+  <title id="logo-title">Nexus Logo</title>
+  <desc id="logo-desc">Abstract geometric mark of three converging angular paths forming a triangular void at their junction</desc>
+  <g id="mark-icon">
+    <path fill="#e85d24" d="M32 8 L40 28 L56 36 L40 34 L32 56 L24 34 L8 36 L24 28 Z"/>
+  </g>
+</svg>
