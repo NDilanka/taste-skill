@@ -85,3 +85,42 @@ SVG is RGB-only; print requires CMYK. Pipeline: SVG → Illustrator (or Inkscape
 
 ### SVG Optimization (SVGO)
 Disable these plugins: `removeViewBox`, `cleanupIds`, `convertPathData`, `removeTitle`, `removeDesc`. Safe defaults remove 30-60% file size without visual impact.
+
+### Delivery Package
+
+When delivering a complete logo package, include these files (see `LOGO-SYSTEMS.md` for full naming conventions):
+
+**SVG files:**
+- `logo-primary.svg` — full color horizontal lockup
+- `logo-primary-mono-dark.svg` — monochrome dark (`currentColor`)
+- `logo-primary-mono-light.svg` — monochrome light (for dark backgrounds)
+- `logo-icon.svg` — icon/mark only
+- `logo-favicon.svg` — simplified icon (≤ 3 shapes, 32×32 viewBox)
+
+**Raster files:**
+- `logo-og.png` — 1200×630 for social media sharing (og:image)
+- `logo-appicon-512.png` — 512×512 for app stores / PWA
+- `logo-appicon-192.png` — 192×192 for Android Chrome
+- `logo-apple-touch-icon.png` — 180×180 for iOS
+- `logo-favicon.ico` — 16+32+48px multi-size ICO
+
+**Brand assets:**
+- Color specification: Pantone, CMYK, RGB, HEX values
+- CSS custom properties for web projects:
+  ```css
+  :root {
+    --brand-primary: #1a1a2e;
+    --brand-accent: #0d6efd;
+  }
+  ```
+- Usage notes: minimum display size, clear space ratio, which variant for which context
+
+### Brief Brand Guidelines Template
+
+When providing usage guidance alongside the logo:
+
+1. **Primary mark** — when and where to use the full lockup
+2. **Clear space** — minimum padding as a ratio of a brand element
+3. **Minimum size** — smallest acceptable display size (digital: px, print: inches)
+4. **Color variants** — which variant on which background (light, dark, colored)
+5. **Don'ts** — do not stretch, rotate, recolor, add effects, or alter proportions

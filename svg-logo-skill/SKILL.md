@@ -34,6 +34,8 @@ Adapt these values dynamically based on the user's chat prompts. These drive the
 
 **Optical Corrections.** Circles overshoot cap line by 1.5-3%. Pointed shapes overshoot by 3-5%. Triangles align by centroid (1/3 from base), not bounding-box center. Horizontal strokes appear ~3-5% heavier than verticals — compensate. Crossbars at **40% of cap height**, not 50%.
 
+**Design System Integration.** Logos exist within a broader design ecosystem. Wordmark typography should align with the project's font philosophy (e.g., taste-skill bans Inter — wordmarks shouldn't use Inter-derived forms). Monochrome variants naturally support editorial/minimalist aesthetics. The `<g id="">` structure enables Framer Motion integration in animated interfaces.
+
 See `reference/CONSTRUCTION.md` for grid systems, shape psychology, symmetry operations, proportional relationships, and iconic logo construction lessons.
 
 ## 3. LOGO ARCHETYPES (Pick 1)
@@ -76,6 +78,24 @@ Simple marks < 1.5KB. Moderate marks < 3KB. Wordmarks < 5KB.
 
 See `reference/SVG-TECHNICAL.md` for full path quality rules, cross-renderer compatibility tiers, AI generation reliability research, versatility requirements, and responsive logo system.
 See `reference/PATTERNS-AND-EXPORT.md` for SVG code patterns (rotational symmetry, boolean subtraction, intersection, monogram knockout, reflective symmetry, negative space) and export/handoff guidance.
+
+## 4A. ANIMATION-READY STRUCTURE
+
+Logo SVGs are **static by design** — all animation happens externally via CSS or JavaScript. This keeps SVGs portable across `<img>`, `<object>`, email, and print contexts.
+
+**Inside SVG (banned):** `<animate>`, `<animateTransform>`, `<set>`, `<style>`, `<script>`.
+
+**Outside SVG (encouraged):** Name `<g>` groups with semantic IDs so external CSS/JS can target them:
+```svg
+<g id="mark-icon"><!-- Icon paths --></g>
+<g id="mark-text"><!-- Wordmark paths --></g>
+```
+External CSS example: `#mark-icon { animation: float 2s ease-in-out infinite; }`
+Framer Motion: wrap in `<motion.svg>`, target child groups as `<motion.g>`.
+
+**GPU-safe properties only:** Animate `transform` (rotate, scale, translate) and `opacity`. Never animate `width`, `height`, `top`, `left`, or path data.
+
+See `reference/LOGO-SYSTEMS.md` for multi-logo architecture, variant families, favicon reduction, and delivery file naming conventions.
 
 ## 5. BANNED PATTERNS
 
