@@ -93,8 +93,14 @@ Before writing any SVG, you MUST consciously select an archetype and state your 
 * **What:** An icon/symbol placed alongside a wordmark. The most common logo type in the real world.
 * **When:** New brands needing both visual identity and name recognition. Brands that need flexibility to use mark alone or with text.
 * **Shape Budget:** Mark ≤ 4 shapes + wordmark paths. The mark and wordmark are separate `<g>` groups.
-* **Approach:** Design the mark and wordmark independently — both must work standalone. Horizontal layout is default. The mark should sit to the left of the wordmark with a clear gap (≥ the width of the wordmark's capital "I").
+* **Approach:** Design the mark and wordmark independently — both must work standalone.
 * **Small Size:** Use the mark alone as the favicon. The wordmark is used only when display size permits full legibility.
+* **Lockup Proportional Rules:**
+  - **Mark-to-wordmark ratio:** Mark height should be **1:1 to 1.618:1** relative to wordmark cap height. The mark should never be shorter than the cap height.
+  - **Horizontal lockup (default):** Gap between mark and wordmark = **1/3 of cap height**, or the width of a recognizable brand element (e.g., the lowercase "o"). Derive the spacing unit from the logo itself so it scales proportionally.
+  - **Vertical/stacked lockup:** The mark must be **enlarged 130-200%** compared to the horizontal variant (long wordmarks: 130%, short wordmarks: 200%). Target a roughly **square** overall aspect ratio. Gap between mark bottom and wordmark top = 1× the spacing unit.
+  - **Clear space:** Define as a ratio of a brand element (e.g., "clear space = cap height of the wordmark" or "= radius of the primary circle"), not a fixed pixel value.
+* **SVG Structure for Lockups:** Use separate `<g id="mark">` and `<g id="wordmark">` groups. Position the wordmark via `transform="translate(X, Y)"` — switching layouts is then a matter of updating the translate values. For multi-variant SVG sprites, use `<symbol>` + `<use>` to define horizontal, stacked, and icon-only lockups in one file.
 
 **Archetype Selection Defaults:** If the user does not specify a preference, choose based on context: **Abstract Mark** for tech/SaaS companies. **Wordmark** for consumer brands with short, distinctive names (≤ 8 characters). **Combination Mark** when the brand is new or unfamiliar. **Geometric Monogram** for developer tools and professional services. **Emblem** only when the user explicitly requests a badge/seal aesthetic.
 
@@ -277,6 +283,20 @@ Letters vary dramatically in AI generation reliability. Favor easy letters in br
 
 ## 8. COLOR THEORY FOR LOGOS
 
+### 8A. Brand Personality → Visual Form Mapping
+When the user provides brand adjectives (Step 1 of the Execution Protocol), use this table to drive shape, color, and typography decisions:
+
+| Brand Personality | Shapes | Colors | Typography | Archetype Bias |
+|---|---|---|---|---|
+| **Sincere / Warm / Friendly** | Circles, rounded corners, soft organic curves | Warm earth tones, soft yellow, warm orange, muted green | Humanist sans, rounded terminals, medium weight, lowercase | Wordmark, Pictorial Reduction |
+| **Exciting / Bold / Energetic** | Diagonal lines, acute angles, upward triangles, dynamic asymmetry | Saturated red, bright orange, electric yellow, high-contrast pairs | Bold geometric sans, wide tracking, uppercase or mixed case | Abstract Mark, Combination Mark |
+| **Competent / Reliable / Professional** | Squares, rectangles, enclosed forms, low center of gravity | Blue, dark green, navy, charcoal | Clean geometric sans or slab serif, medium-to-bold, uppercase | Geometric Monogram, Wordmark |
+| **Sophisticated / Luxurious / Elegant** | Thin precise lines, generous whitespace, vertical emphasis | Black, gold, deep purple (flat, not gradient), cream accents | High-contrast serif (Didot archetype), thin strokes, wide letterspacing | Wordmark, Geometric Monogram |
+| **Rugged / Tough / Outdoorsy** | Angular forms, heavy strokes, thick geometric primitives | Dark earth tones (brown, forest green, charcoal) | Slab serif, bold weight, uppercase, condensed | Emblem, Pictorial Reduction |
+| **Innovative / Modern / Tech-Forward** | Upward triangles, open geometric forms, asymmetric compositions | Cool neutrals + one unexpected accent (avoid blue if competitors use it) | Geometric sans, monospace for dev tools, medium weight, lowercase | Abstract Mark, Geometric Monogram |
+| **Playful / Creative / Fun** | Irregular shapes, mixed geometry, rounded + angular, off-grid | Multi-color (up to 3), high saturation, complementary pairs | Rounded sans, hand-drawn/custom, varied weights, lowercase | Combination Mark, Pictorial Reduction |
+| **Trustworthy / Stable / Institutional** | Symmetrical enclosed forms, horizontal lines, contained compositions | Blue, dark green, navy + white, low saturation | Serif or clean sans-serif, medium weight, uppercase | Geometric Monogram, Emblem |
+
 ### Monochrome First
 * **MANDATORY:** Design the logo in **pure monochrome** (single dark color on light, or light on dark) BEFORE applying brand colors. If the logo doesn't work in monochrome, the color is a crutch and the form is weak.
 
@@ -388,10 +408,17 @@ Every logo generation MUST include these variants:
 * For Combination Mark archetypes: only the icon/mark portion is used as the app icon, never the wordmark.
 
 ### Responsive Logo System
-When the logo may appear at widely varying sizes, design a **3-tier progressive simplification**:
-1. **Full mark** (240px+): Icon + wordmark (+ tagline if applicable)
-2. **Simplified mark** (48-240px): Icon/symbol only, no wordmark
-3. **Favicon/atomic** (16-48px): Further simplified icon — reduce to ≤ 3 bold shapes, thicken strokes, remove all fine detail
+When the logo may appear at widely varying sizes, design a **progressive simplification** system. The switching trigger is **wordmark legibility**, not device breakpoints — when text becomes illegible, drop it.
+
+| Tier | Size Range | What to Show |
+|---|---|---|
+| Full lockup + tagline | 240px+ wide | Icon + wordmark + tagline |
+| Horizontal lockup | 144-240px wide | Icon + wordmark (minimum legible lockup) |
+| Stacked lockup | 80-144px wide | Icon above wordmark (when width is constrained but height available) |
+| Icon only | 40-80px | Symbol/mark alone, no text |
+| Simplified icon / favicon | 16-40px | ≤ 3 bold shapes, thickened strokes, no fine detail |
+
+**Hard minimums:** Wordmark text must not appear below **16px cap height** (digital) / **0.15 inches** (print). Below 40px total lockup height, switch to a simplified/flat icon variant.
 
 73% of logo views happen at sizes under 64px — designing large-first is the most common mistake.
 
@@ -408,7 +435,17 @@ When the logo may appear at widely varying sizes, design a **3-tier progressive 
 
 Follow this sequence for every logo generation. Do NOT skip steps.
 
-1. **[BRIEF INTAKE]** Parse the user's request. Identify: brand name, industry/context, values or adjectives, any specific requests. If the user is vague, infer reasonable defaults from the brand name and context — do not ask excessive clarifying questions.
+1. **[BRIEF INTAKE]** Parse the user's request. Extract what's given, then fill gaps:
+
+   **Always provided:** Brand name (and any tagline).
+
+   **Ask only if missing (max 4 questions before generating):**
+   * *What does the company/product do?* — Industry drives archetype, color, and cliché avoidance. Never infer industry from name alone ("Mercury" could be fintech, automotive, or messaging).
+   * *Name 3 adjectives that describe how the brand should feel.* — The single highest-leverage creative input. Maps directly to shape, color, and typography via the Brand Personality → Visual Form table (Section 8A).
+   * *Who are 2-3 main competitors?* (optional) — Enables color/archetype differentiation. If not provided, infer competitive landscape from industry.
+   * *Anything you want to avoid?* (optional) — Negative constraints prevent wasted iterations.
+
+   **Always infer (never ask):** Logo archetype (from name length + industry + adjectives), color palette (from adjectives + industry + competitive differentiation), typography style, shape language, geometric precision/playfulness dials, responsive variants needed. If the user provides a rich brief unprompted, skip straight to generation.
 
 2. **[ARCHETYPE SELECTION]** Consciously choose one archetype from Section 3. State your choice and the reasoning in one sentence. Example: *"Archetype: Geometric Monogram — the short brand name and tech context favor a letter-based mark."*
 
@@ -417,6 +454,7 @@ Follow this sequence for every logo generation. Do NOT skip steps.
    * **Map** attributes to geometric vocabulary: speed → diagonal lines, acute angles; trust → enclosed forms, low center of gravity; warmth → circles, rounded corners; innovation → upward triangles, asymmetric forms; premium → thin precise lines, generous whitespace; community → overlapping/interlocking shapes
    * **Choose** a rhetorical strategy for each concept: **metaphor** (cross-domain analogy — Amazon's A-to-Z arrow), **abstraction** (pure geometric form — Chase octagon), or **reduction** (real object stripped to essence — Apple silhouette)
    * Describe each concept in one sentence. Evaluate: Which is most distinctive? Which passes the Swap Test? Select the strongest and state why.
+   * **Competitive differentiation:** Before committing, mentally audit the competitive landscape — what colors, archetypes, and shape languages do competitors use? Consciously diverge in at least one dimension. If the space is full of blue wordmarks, an orange abstract mark differentiates instantly.
    * **Anti-patterns to avoid:** being too literal (Rule 4), combining multiple ideas into one mark, settling on the first/most obvious idea, making the concept depend on color.
 
 4. **[CONCEPT COMMITMENT]** Lock in your chosen concept. Describe it in 1-2 sentences. What is the visual idea? What makes it specific to THIS brand? What is its ONE HOOK? Example: *"The letter 'N' constructed from two overlapping parallelograms, creating a sense of forward momentum through negative space. The hook: the negative space between the parallelograms forms a forward-pointing arrow."*
@@ -543,3 +581,36 @@ When the user specifies an industry, use these mappings to guide archetype selec
 * **Conceptual approach:** Express environmental values through form and color, not literal nature depictions. Geometric forms suggesting cycles, renewal, or interconnection.
 * **Avoid:** Generic leaves, trees, recycling arrows, water drops, globes with green continents
 * **Color note:** Green is expected — consider earth tones or unexpected colors that still convey the brand values.
+
+## 14. EXPORT & HANDOFF GUIDANCE
+
+When the user asks about using the generated logo in production contexts, provide relevant guidance from these categories:
+
+### Web: Framework Components
+* **React (SVGR):** Replace `fill="#000"` with `fill="currentColor"`, add `{...props}` on root `<svg>`, use `width="1em" height="1em"` for icon-like scaling. SVGR config: `{ icon: true, replaceAttrValues: { "#000": "currentColor" }, expandProps: "end" }`.
+* **Vue:** Use `vite-svg-loader` with `?component` suffix. Same `currentColor` replacement applies.
+* **Both:** Always preserve `viewBox`. Add `aria-hidden="true"` for decorative logos; `role="img"` + `aria-label` for meaningful ones.
+
+### Web: CSS Embedding
+* **`<img src="logo.svg">`** — Best for simple logo placement. Cached as a file. No CSS control over fills.
+* **Inline SVG** — Use when the logo needs dynamic color theming via `currentColor` or CSS custom properties.
+* **SVG sprite `<symbol>`/`<use>`** — Use when the logo appears alongside an icon system. One cached file, multiple references.
+* **CSS `background-image` data URI** — For decorative repeated logos. URL-encode the SVG (do NOT base64 — it adds 25-30% size). Only `#` needs encoding as `%23`.
+
+### Favicon & Raster Generation
+The modern favicon stack requires only **3 files**:
+```html
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"> <!-- 180×180 -->
+```
+Plus a PWA manifest referencing 192×192 and 512×512 PNGs. Generate rasters via `sharp` (Node.js) or `rsvg-convert` (CLI). Generate `.ico` via ImageMagick: `convert icon-16.png icon-32.png icon-48.png favicon.ico`.
+
+### Design Tool Import (Figma)
+For clean import: name `<g>` groups with meaningful `id` attributes (become layer names), outline all strokes to paths, flatten boolean operations, snap to pixel grid, and remove editor metadata. After import, ungroup the SVG frame to access individual elements.
+
+### Print Production
+SVG is RGB-only; print requires CMYK conversion. Pipeline: SVG → Adobe Illustrator (or Inkscape + Scribus) → CMYK EPS/PDF. Always convert text to outlines. Minimum reproduction size: typically 0.5-1.5 inches wide depending on complexity. Include a color specification sheet with Pantone, CMYK, RGB, and HEX values.
+
+### SVG Optimization (SVGO)
+Use SVGO with these plugins **disabled** to protect logo integrity: `removeViewBox`, `cleanupIds` (breaks gradient/clip-path refs), `convertPathData` (can alter precise geometry), `removeTitle`, `removeDesc`. The safe default config typically removes 30-60% file size from editor-exported SVGs without visual impact.
